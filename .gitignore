@@ -1,0 +1,17 @@
+# go
+backend/server
+*.out
+
+# node / next
+frontend/node_modules/
+frontend/.next/
+frontend/.env.local
+
+# anchor / rust
+contracts/target/
+contracts/.anchor/
+contracts/node_modules/
+
+# misc
+.DS_Store
+*.log

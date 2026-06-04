@@ -1,0 +1,94 @@
+==============================================================================
+ EduChain — BUILD ROADMAP (todo.txt)
+ Hack4FUTO 5.0
+ Read DESIGN.md first. Then work top to bottom. [x] = scaffolded, [ ] = you build it.
+ Demo golden path is the goal: verify -> mint -> buy(split) -> complete -> cert -> public verify.
+==============================================================================
+
+------------------------------------------------------------------------------
+ PHASE 0 — SCAFFOLD  (done — this is what's already in the repo)
+------------------------------------------------------------------------------
+[x] Repo layout: backend/ frontend/ contracts/ docs/
+[x] DESIGN.md — architecture, data model, flows, the Solana-vs-EVM decision
+[x] Go backend builds: verify (allowlist moat) + DID stub + course catalog + handlers
+[x] Anchor program skeleton: bind_did, create_course, buy_course, issue_certificate
+[x] Next.js app: landing + onboarding (matric -> verify -> wallet sign & bind)
+[x] READMEs in every folder
+
+------------------------------------------------------------------------------
+ PHASE 1 — MAKE THE MOAT REAL  (identity is the whole pitch — nail this first)
+------------------------------------------------------------------------------
+[ ] Backend: swap in-memory bits for real persistence
+    - add Postgres (users, courses, enrollments, certificates, verifications)
+    - wire Redis: challenge nonces with TTL, rate-limit on /verify (registration-rush proof)
+[ ] DID: replace did/issuer.go stub with real ed25519 signature verification
+    - verify the wallet actually signed the challenge (use the Solana pubkey)
+    - challenge must be a random nonce from Redis, not a derived string
+[ ] Decide registry source: keep CSV allowlist for demo, document the real-API swap point
+[ ] Tests: verify.Service (hit/miss), signature verify (good/bad sig)
+    GOAL: a wallet cannot bind without a valid matric AND a valid signature.
+
+------------------------------------------------------------------------------
+ PHASE 2 — CONTRACTS FOR REAL  (devnet, no mocks in the core flow)
+------------------------------------------------------------------------------
+[ ] anchor build -> copy the real program ID into Anchor.toml + lib.rs declare_id!
+[ ] bind_did: call it from the frontend after backend OK; assert the PDA on-chain
+[ ] create_course: add anchor-spl, actually mint
+    - NFT path: supply = 1, unique
+    - SFT path: supply = N, identical-but-owned copies
+    - attach Metaplex (mpl-core) royalty config at mint (royalty_bps)
+[ ] buy_course: CPI transfer the token to the student after the split
+    - VALIDATE instructor/platform accounts against course data (security TODO in lib.rs)
+[ ] issue_certificate: tighten the completion authority (right now too permissive)
+[ ] anchor test: bind, mint NFT, mint SFT, buy+split math, double-buy guard, cert issue
+    GOAL: money splits atomically and the token lands in the buyer's wallet, on devnet.
+
+------------------------------------------------------------------------------
+ PHASE 3 — COURSES END TO END  (frontend <-> chain <-> backend index)
+------------------------------------------------------------------------------
+[ ] Frontend /instructor: form -> upload content to IPFS -> create_course tx -> POST /courses to index
+[ ] Frontend /courses: catalog from GET /courses, card per course
+[ ] Frontend /courses/[id]: detail + "Buy" -> buy_course tx -> show token in wallet
+[ ] Backend: index enrollments by watching the chain (or accept a signed receipt from FE)
+[ ] IPFS: pin course content, store the CID on-chain (content_hash) + in Postgres
+    GOAL: instructor mints, student buys, access is gated by token ownership.
+
+------------------------------------------------------------------------------
+ PHASE 4 — CERTIFICATES + THE VERIFIER  (the employer money-shot)
+------------------------------------------------------------------------------
+[ ] Define "completion" for the demo (e.g. instructor marks done, or a quiz pass)
+[ ] On completion -> issue_certificate tx; push the cert record to Arweave, store tx id
+[ ] Frontend /verify (PUBLIC, no login): paste a DID or scan -> show cert + validity
+[ ] Backend GET /verify-cert/:did/:course: read the cert PDA from chain, report valid/when/what
+    GOAL: an employer verifies a credential in seconds without trusting anyone. This is the pitch.
+
+------------------------------------------------------------------------------
+ PHASE 5 — HARDENING + DEMO POLISH  (only after the golden path works)
+------------------------------------------------------------------------------
+[ ] The Graph subgraph for fast reads (or keep direct RPC if time's tight — document it)
+[ ] WebSocket: live "payment split landed" feed on the instructor dash (great for demo)
+[ ] Seed script: a few matrics, an instructor, 2 courses (1 NFT, 1 SFT) for a clean run
+[ ] Dockerfile (Go) + docker-compose (api + postgres + redis)
+[ ] GitHub Actions: build+test backend, build frontend, anchor build
+[ ] Deploy: frontend -> Vercel, backend -> a box, contracts on devnet
+[ ] Record the 2-min demo video walking the golden path
+
+------------------------------------------------------------------------------
+ STRETCH (only if you're somehow ahead — you won't be, it's a hackathon)
+------------------------------------------------------------------------------
+[ ] Secondary-market resale UI to show royalties paying out live
+[ ] On-chain reputation that grows as a student completes courses
+[ ] Role-based dashboards (Learner / Instructor / Admin)
+[ ] Multi-node IPFS pinning + Filecoin deal for real permanence
+
+==============================================================================
+ DEMO DAY CHECKLIST (the only thing the judges see)
+==============================================================================
+[ ] Verify a real matric live, show a fake one getting rejected
+[ ] Instructor mints a course (show it's an NFT/SFT on a Solana explorer)
+[ ] Student buys it — show tutor wallet + platform wallet balances change in ONE tx
+[ ] Complete the course -> cert appears on-chain
+[ ] Paste the DID into the public verifier -> "VALID" in seconds, no login
+[ ] One line: "The verification layer is the moat. Without it, this is just another
+    NFT marketplace. With it, it's anti-fraud credential infrastructure."
+==============================================================================

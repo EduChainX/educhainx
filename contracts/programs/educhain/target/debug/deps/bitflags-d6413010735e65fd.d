@@ -1,0 +1,12 @@
+/home/haki/educhain/contracts/programs/educhain/target/debug/deps/bitflags-d6413010735e65fd.d: /home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/lib.rs /home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/iter.rs /home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/parser.rs /home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/traits.rs /home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/public.rs /home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/internal.rs /home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/external.rs /home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/external/serde.rs
+
+/home/haki/educhain/contracts/programs/educhain/target/debug/deps/libbitflags-d6413010735e65fd.rmeta: /home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/lib.rs /home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/iter.rs /home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/parser.rs /home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/traits.rs /home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/public.rs /home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/internal.rs /home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/external.rs /home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/external/serde.rs
+
+/home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/lib.rs:
+/home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/iter.rs:
+/home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/parser.rs:
+/home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/traits.rs:
+/home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/public.rs:
+/home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/internal.rs:
+/home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/external.rs:
+/home/haki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.12.1/src/external/serde.rs:
