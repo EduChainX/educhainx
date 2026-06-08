@@ -37,3 +37,16 @@ export async function listCourses(): Promise<{ courses: Course[] }> {
   const res = await fetch(`${BASE}/courses`);
   return res.json();
 }
+
+export type CertResult = {
+  did: string;
+  course: string;
+  valid: boolean;
+  note?: string;
+};
+
+// Public credential check (employer-facing). Backend route: GET /verify-cert/:did/:course.
+export async function verifyCert(did: string, course: string): Promise<CertResult> {
+  const res = await fetch(`${BASE}/verify-cert/${encodeURIComponent(did)}/${encodeURIComponent(course)}`);
+  return res.json();
+}

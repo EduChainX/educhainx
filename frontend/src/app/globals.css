@@ -2,12 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Colors are stored as space-separated RGB channels so Tailwind v3 opacity
+ * modifiers (bg-primary/10, border-accent/20, ...) work via rgb(var(--x) / <alpha-value>).
+ * See tailwind.config.js for the color mapping.
+ */
 :root {
-  --bg: #0b0e14;
-  --fg: #e6edf3;
+  --background: 13 17 23;        /* #0D1117 */
+  --foreground: 240 246 252;     /* #F0F6FC */
+  --card: 22 27 34;              /* #161B22 */
+  --card-foreground: 240 246 252;
+  --popover: 22 27 34;
+  --popover-foreground: 240 246 252;
+  --primary: 59 130 246;         /* #3B82F6 */
+  --primary-foreground: 255 255 255;
+  --secondary: 22 27 34;
+  --secondary-foreground: 240 246 252;
+  --muted: 33 38 45;             /* #21262D */
+  --muted-foreground: 139 148 158; /* #8B949E */
+  --accent: 139 92 246;          /* #8B5CF6 */
+  --accent-foreground: 255 255 255;
+  --destructive: 248 81 73;      /* #F85149 */
+  --destructive-foreground: 255 255 255;
+  --border: 33 38 45;
+  --input: 22 27 34;
+  --ring: 59 130 246;
+  --radius: 8px;
+
+  --success: 63 185 80;          /* #3FB950 */
+  --warning: 210 153 34;         /* #D29922 */
+  --error: 248 81 73;            /* #F85149 */
 }
 
-body {
-  background: var(--bg);
-  color: var(--fg);
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold text-foreground;
+    letter-spacing: -0.02em;
+  }
+  h1 { font-size: 32px; }
+  h2 { font-size: 24px; }
+  h3 { font-size: 20px; }
+}
+
+@layer components {
+  .glass-modal {
+    @apply bg-[#0D1117]/80 backdrop-blur-md border border-white/10;
+  }
+
+  .card-hover {
+    @apply transition-all duration-200 hover:-translate-y-1 hover:border-primary/50;
+  }
 }
