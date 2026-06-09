@@ -65,6 +65,32 @@ export const MetricCard = ({ label, value, icon: Icon, trend }: { label: string;
   </div>
 );
 
+export const Skeleton = ({ className }: { className?: string }) => (
+  <div className={cn("skeleton", className)} />
+);
+
+// Google-games-style pseudonym, derived deterministically from a wallet address so it's
+// stable per user without storing anything. Gives the pseudo-anonymous identity a friendly name.
+const ADJECTIVES = [
+  'Swift', 'Brave', 'Clever', 'Lunar', 'Golden', 'Cosmic', 'Silent', 'Bold',
+  'Noble', 'Rapid', 'Vivid', 'Mighty', 'Gentle', 'Radiant', 'Stellar', 'Wise',
+];
+const ANIMALS = [
+  'Falcon', 'Otter', 'Panther', 'Heron', 'Lynx', 'Gecko', 'Mantis', 'Marlin',
+  'Bison', 'Cobra', 'Wren', 'Jaguar', 'Ibis', 'Stag', 'Orca', 'Raven',
+];
+
+export function pseudonymFromAddress(address: string): string {
+  let hash = 0;
+  for (let i = 0; i < address.length; i++) {
+    hash = (hash * 31 + address.charCodeAt(i)) >>> 0;
+  }
+  const adj = ADJECTIVES[hash % ADJECTIVES.length];
+  const animal = ANIMALS[(hash >> 8) % ANIMALS.length];
+  const num = (hash >> 16) % 900 + 100;
+  return `${adj}${animal}${num}`;
+}
+
 export const NFTTypePill = ({ type }: { type: 'NFT' | 'SFT' }) => (
   <span className={cn(
     "px-2 py-0.5 rounded text-[10px] font-bold uppercase",

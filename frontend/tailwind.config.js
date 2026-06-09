@@ -51,6 +51,7 @@ module.exports = {
       },
       fontFamily: {
         sans: "var(--font-sans)",
+        heading: "var(--font-heading)",
         mono: "var(--font-mono)",
       },
     },

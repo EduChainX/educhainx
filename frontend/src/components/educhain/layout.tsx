@@ -18,6 +18,7 @@ import {
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { WalletAddressChip, VerifiedStudentBadge } from './shared';
+import { ThemeToggle } from './theme-toggle';
 
 export const Sidebar = ({ collapsed, setCollapsed }: { collapsed: boolean; setCollapsed: (v: boolean) => void }) => {
   const pathname = usePathname();
@@ -103,6 +104,7 @@ export const AppLayout = ({ children }: { children: React.ReactNode }) => {
             <div className="h-1.5 w-1.5 rounded-full bg-success" />
           </div>
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             <Button variant="ghost" size="icon" className="relative text-muted-foreground">
               <Bell size={20} />
               <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-background" />

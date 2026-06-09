@@ -1,6 +1,8 @@
+"use client";
+
 import React from 'react';
-import { 
-  Cpu, 
+import {
+  Cpu,
   Wallet, 
   Award, 
   BookOpen, 
@@ -12,18 +14,23 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { AppLayout } from '@/components/educhain/layout';
-import { DIDString, WalletAddressChip, VerifiedStudentBadge } from '@/components/educhain/shared';
+import { DIDString, WalletAddressChip, VerifiedStudentBadge, pseudonymFromAddress } from '@/components/educhain/shared';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useWallet } from '@solana/wallet-adapter-react';
 import { cn } from '@/lib/utils';
 
 export const ProfilePage = () => {
+  const { publicKey } = useWallet();
+  const address = publicKey?.toBase58() ?? '8xJ4n9P2q1mZexampleaddr9a2z';
+  const handle = `${pseudonymFromAddress(address)}.sol`;
+
   return (
     <AppLayout>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Profile Card */}
-        <div className="lg:col-span-1 space-y-6">
-          <div className="bg-card border border-border rounded-xl p-8 text-center space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        {/* Profile Card — sticky, no overlay */}
+        <div className="lg:col-span-1 space-y-6 lg:sticky lg:top-24 z-0">
+          <div className="bg-card border border-border rounded-lg p-8 text-center space-y-6">
             <div className="relative inline-block">
               <div className="w-32 h-32 rounded-3xl bg-accent/20 border border-accent/40 flex items-center justify-center mx-auto overflow-hidden">
                  <img src="https://api.dicebear.com/7.x/identicon/svg?seed=educhain" alt="Avatar" className="w-full h-full" />
@@ -34,13 +41,13 @@ export const ProfilePage = () => {
             </div>
             
             <div className="space-y-2">
-              <h2 className="text-2xl font-bold">John_Doe.sol</h2>
+              <h2 className="text-2xl font-bold">{handle}</h2>
               <p className="text-muted-foreground text-sm">Computer Engineering @ UNILAG</p>
             </div>
 
             <div className="flex flex-col gap-3">
               <DIDString did="8f2a1b9c3d4e5f6g7h8i9j" className="justify-center py-2" />
-              <WalletAddressChip address="8xJ4n9P2q1mZ...9a2z" className="justify-center py-2" />
+              <WalletAddressChip address={address} className="justify-center py-2" />
             </div>
 
             <div className="pt-6 border-t border-border grid grid-cols-2 gap-4">
@@ -59,7 +66,7 @@ export const ProfilePage = () => {
             </Button>
           </div>
 
-          <div className="bg-card border border-border rounded-xl p-6 space-y-4">
+          <div className="bg-card border border-border rounded-lg p-6 space-y-4">
             <h4 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">Verification Stats</h4>
             <div className="space-y-3">
               {[
@@ -88,18 +95,28 @@ export const ProfilePage = () => {
             <TabsContent value="credentials" className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[1, 2, 3, 4].map((_, i) => (
-                  <div key={i} className="bg-card border border-border p-6 rounded-xl space-y-4 card-hover">
-                    <div className="flex items-start justify-between">
-                      <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+                  <div
+                    key={i}
+                    className="group relative overflow-hidden rounded-lg border border-border p-6 space-y-4 card-hover"
+                  >
+                    {/* course image background + contrast overlay (darkens on hover) */}
+                    <img
+                      src={`https://picsum.photos/seed/cred${i + 30}/600/400`}
+                      alt=""
+                      className="absolute inset-0 h-full w-full object-cover opacity-25 transition-all duration-300 group-hover:opacity-40 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/90 to-card/60 transition-colors duration-300 group-hover:from-card group-hover:via-card/80" />
+                    <div className="relative flex items-start justify-between">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-md bg-primary/15 text-primary backdrop-blur-sm">
                         <Award size={24} />
                       </div>
                       <VerifiedStudentBadge />
                     </div>
-                    <div>
+                    <div className="relative">
                       <h4 className="font-bold leading-tight">Advanced Distributed Systems</h4>
                       <p className="text-[12px] text-muted-foreground mt-1">University of Lagos • Issued Dec 2023</p>
                     </div>
-                    <div className="pt-4 border-t border-border flex items-center justify-between">
+                    <div className="relative pt-4 border-t border-border flex items-center justify-between">
                       <span className="text-[10px] font-mono text-muted-foreground">ID: #8291...F21A</span>
                       <Button variant="ghost" size="sm" className="h-8 text-[11px] text-primary">
                         View On-Chain <ExternalLink size={12} className="ml-1.5" />
@@ -111,7 +128,7 @@ export const ProfilePage = () => {
             </TabsContent>
 
             <TabsContent value="courses" className="space-y-4">
-               <div className="bg-card border border-border rounded-xl divide-y divide-border">
+               <div className="bg-card border border-border rounded-lg divide-y divide-border">
                   {[1, 2, 3].map((_, i) => (
                     <div key={i} className="p-6 flex items-center justify-between hover:bg-muted/20 transition-colors">
                       <div className="flex items-center gap-4">

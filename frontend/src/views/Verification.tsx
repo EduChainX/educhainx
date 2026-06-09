@@ -9,8 +9,11 @@ import {
   Loader2,
   FileSearch,
   ExternalLink,
-  Database
+  Database,
+  X
 } from 'lucide-react';
+import { ThemeToggle } from '@/components/educhain/theme-toggle';
+import { Skeleton } from '@/components/educhain/shared';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -45,8 +48,19 @@ export const VerificationPage = () => {
       {/* Public Navbar */}
       <nav className="border-b border-border bg-card/30 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <span className="text-xl font-bold text-primary">EduChain <span className="text-muted-foreground font-medium text-sm ml-2">Verification Registry</span></span>
-          <Button variant="ghost" className="text-sm" onClick={() => window.history.back()}>Exit to Main Site</Button>
+          <span className="text-xl font-bold text-gradient">EduChain <span className="text-muted-foreground font-medium text-sm ml-2">Verification Registry</span></span>
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Exit to main site"
+              title="Exit to main site"
+              onClick={() => window.history.back()}
+            >
+              <X size={18} />
+            </Button>
+          </div>
         </div>
       </nav>
 
@@ -84,6 +98,33 @@ export const VerificationPage = () => {
         </div>
 
         <AnimatePresence mode="wait">
+          {status === 'loading' && (
+            <div className="bg-card border border-border rounded-xl overflow-hidden">
+              <Skeleton className="h-8 w-full rounded-none" />
+              <div className="p-8 space-y-6">
+                <div className="flex items-start justify-between">
+                  <div className="space-y-2">
+                    <Skeleton className="h-7 w-48" />
+                    <Skeleton className="h-4 w-32" />
+                  </div>
+                  <Skeleton className="h-16 w-16 rounded-lg" />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className="space-y-2">
+                      <Skeleton className="h-3 w-24" />
+                      <Skeleton className="h-4 w-36" />
+                    </div>
+                  ))}
+                </div>
+                <div className="pt-6 border-t border-border flex items-center gap-2">
+                  <Skeleton className="h-6 w-24 rounded-full" />
+                  <Skeleton className="h-6 w-28 rounded-full" />
+                </div>
+              </div>
+            </div>
+          )}
+
           {status === 'valid' && (
             <motion.div 
               initial={{ opacity: 0, y: 20 }}

@@ -7,12 +7,11 @@ import {
   Star,
   Users,
   ShoppingCart,
-  ChevronDown,
-  Loader2
+  ChevronDown
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { AppLayout } from '@/components/educhain/layout';
-import { NFTTypePill, VerifiedStudentBadge } from '@/components/educhain/shared';
+import { NFTTypePill, VerifiedStudentBadge, Skeleton } from '@/components/educhain/shared';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -121,8 +120,20 @@ export const Marketplace = () => {
 
         {/* States */}
         {loading && (
-          <div className="flex items-center justify-center gap-3 py-24 text-muted-foreground">
-            <Loader2 className="w-5 h-5 animate-spin" /> Loading courses from the chain index…
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="bg-card border border-border rounded-lg overflow-hidden">
+                <Skeleton className="h-48 w-full rounded-none" />
+                <div className="p-6 space-y-4">
+                  <Skeleton className="h-5 w-3/4" />
+                  <Skeleton className="h-4 w-1/2" />
+                  <div className="flex justify-between pt-4">
+                    <Skeleton className="h-6 w-20" />
+                    <Skeleton className="h-8 w-24" />
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         )}
 
@@ -140,7 +151,7 @@ export const Marketplace = () => {
         {!loading && !error && visible.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {visible.map((course) => (
-              <div key={course.id} className="bg-card border border-border rounded-xl overflow-hidden card-hover group">
+              <div key={course.id} className="bg-card border border-border rounded-lg overflow-hidden card-hover group">
                 <div className="h-48 relative overflow-hidden">
                   <img
                     src={course.image}
