@@ -16,7 +16,8 @@ import {
   BookOpen,
   LifeBuoy,
   CheckCircle2,
-  Cpu,
+  Award,
+  BadgeCheck,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/educhain/theme-toggle';
@@ -83,18 +84,6 @@ const CAROUSEL_ITEMS = [
   { label: 'Instructors', value: '1,204' },
 ];
 
-// Deterministic "barcode" bar heights from a seed — stable across SSR/CSR (no hydration mismatch).
-function barcode(seed: string, count = 30): number[] {
-  let h = 0;
-  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
-  const out: number[] = [];
-  for (let i = 0; i < count; i++) {
-    h = (h * 1103515245 + 12345) & 0x7fffffff;
-    out.push(5 + (h % 18));
-  }
-  return out;
-}
-
 export const LandingPage = () => {
   const router = useRouter();
   const navigate = (path: string) => router.push(path);
@@ -105,7 +94,14 @@ export const LandingPage = () => {
   };
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-background">
+    <div className="relative min-h-screen overflow-x-hidden bg-background">
+      {/* Page-wide decorative backdrop: vignette-faded grid + warm glows */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-grid-fade opacity-70" />
+        <div className="absolute -right-40 -top-40 h-[36rem] w-[36rem] rounded-full bg-primary/20 blur-[130px]" />
+        <div className="absolute -bottom-48 -left-40 h-[34rem] w-[34rem] rounded-full bg-accent/10 blur-[130px]" />
+      </div>
+
       {/* Navbar */}
       <nav className="fixed top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
@@ -328,98 +324,108 @@ const HowItWorksCard = ({ item, index }: { item: typeof HOW_IT_WORKS[number]; in
   );
 };
 
-// Credential-card style identity: header band, avatar, role pill, gold chip, hash + barcode.
-const CredentialCard = ({
-  kind,
-  name,
-  course,
+// An awarded "Certificate of Achievement": gold seal + ribbon focal point, double frame,
+// recipient + credential, issuer/date footer, and an on-chain verified chip.
+const CertificateCard = ({
+  recipient,
+  credential,
   school,
-  did,
-  seed,
+  date,
+  certId,
   className,
 }: {
-  kind: 'Student' | 'Instructor';
-  name: string;
-  course: string;
+  recipient: string;
+  credential: string;
   school: string;
-  did: string;
-  seed: string;
+  date: string;
+  certId: string;
   className?: string;
 }) => {
-  const isStudent = kind === 'Student';
-  const band = isStudent ? 'from-primary/20 to-transparent' : 'from-accent/20 to-transparent';
-  const avatarBox = isStudent ? 'border-primary/40 bg-primary/15' : 'border-accent/40 bg-accent/15';
-  const pill = isStudent ? 'bg-primary/15 text-primary' : 'bg-accent/15 text-accent';
-  const bars = barcode(seed);
   return (
     <div
       className={cn(
-        "h-[300px] overflow-hidden rounded-xl border border-border bg-card shadow-xl",
+        "relative h-[340px] overflow-hidden rounded-xl border border-border bg-card shadow-2xl",
         className
       )}
     >
-      {/* header band */}
-      <div className={cn("flex items-center justify-between border-b border-border/60 bg-gradient-to-r px-5 py-3", band)}>
-        <span className="font-heading text-xs font-bold uppercase tracking-widest text-gradient">EduChain ID</span>
-        <ShieldCheck className="h-4 w-4 text-success" />
-      </div>
+      {/* soft brand wash + inner frame */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/[0.06] to-transparent" />
+      <div className="pointer-events-none absolute inset-3 rounded-lg border border-border/60" />
+      {/* corner flourishes */}
+      <span className="pointer-events-none absolute left-3 top-3 h-4 w-4 rounded-tl-lg border-l-2 border-t-2 border-primary/40" />
+      <span className="pointer-events-none absolute right-3 top-3 h-4 w-4 rounded-tr-lg border-r-2 border-t-2 border-primary/40" />
+      <span className="pointer-events-none absolute bottom-3 left-3 h-4 w-4 rounded-bl-lg border-b-2 border-l-2 border-primary/40" />
+      <span className="pointer-events-none absolute bottom-3 right-3 h-4 w-4 rounded-br-lg border-b-2 border-r-2 border-primary/40" />
+      {/* watermark seal */}
+      <Award className="pointer-events-none absolute -bottom-10 -right-8 text-primary/[0.05]" size={190} />
 
-      <div className="p-5">
-        <div className="flex items-center gap-3">
-          <div className={cn("h-14 w-14 shrink-0 overflow-hidden rounded-lg border", avatarBox)}>
-            <img src={`https://api.dicebear.com/7.x/identicon/svg?seed=${seed}`} alt="" className="h-full w-full" />
+      <div className="relative flex h-full flex-col items-center px-7 py-6 text-center">
+        {/* seal medal with ribbon tails */}
+        <div className="relative">
+          <div className="absolute left-1/2 top-8 z-0 flex -translate-x-1/2 gap-3.5">
+            <span
+              className="block h-9 w-3 rotate-6 bg-gradient-to-b from-primary to-accent"
+              style={{ clipPath: 'polygon(0 0,100% 0,100% 100%,50% 72%,0 100%)' }}
+            />
+            <span
+              className="block h-9 w-3 -rotate-6 bg-gradient-to-b from-primary to-accent"
+              style={{ clipPath: 'polygon(0 0,100% 0,100% 100%,50% 72%,0 100%)' }}
+            />
           </div>
-          <div className="min-w-0">
-            <span className={cn("inline-block rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider", pill)}>
-              {kind}
-            </span>
-            <div className="mt-1 truncate font-semibold">{name}</div>
-            <div className="truncate text-[12px] text-muted-foreground">{course} • {school}</div>
+          <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-amber-300 via-amber-400 to-amber-600 shadow-lg ring-4 ring-amber-400/15">
+            <div className="flex h-full w-full items-center justify-center rounded-full ring-1 ring-amber-900/25">
+              <Award className="h-7 w-7 text-amber-900" />
+            </div>
           </div>
         </div>
 
-        {/* gold chip + DID */}
-        <div className="mt-6 flex items-center gap-3">
-          <div className="grid h-7 w-9 grid-cols-3 gap-px overflow-hidden rounded-[3px] bg-gradient-to-br from-amber-300 to-amber-500 p-1">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="rounded-[1px] bg-amber-700/30" />
-            ))}
-          </div>
-          <div className="flex items-center gap-1.5 font-mono text-[10px] text-muted-foreground">
-            <Cpu size={11} /> {did}
-          </div>
-        </div>
+        <span className="mt-4 font-mono text-[10px] uppercase tracking-[0.28em] text-primary">
+          Certificate of Achievement
+        </span>
+        <div className="mt-3 text-[11px] text-muted-foreground">This certifies that</div>
+        <div className="mt-0.5 font-heading text-xl font-bold leading-tight">{recipient}</div>
+        <div className="mt-2 text-[11px] text-muted-foreground">has successfully completed</div>
+        <div className="mt-0.5 font-semibold text-foreground">{credential}</div>
 
-        {/* faux barcode */}
-        <div className="mt-5 flex h-8 items-end gap-[2px]">
-          {bars.map((h, i) => (
-            <div key={i} className="w-[3px] rounded-sm bg-foreground/30" style={{ height: `${h}px` }} />
-          ))}
+        {/* footer: issuer / date + verified chip */}
+        <div className="mt-auto w-full">
+          <div className="flex items-end justify-between border-t border-border/60 pt-3 text-left">
+            <div>
+              <div className="text-[9px] uppercase tracking-widest text-muted-foreground">Issued by</div>
+              <div className="text-[11px] font-medium">{school}</div>
+            </div>
+            <div className="text-right">
+              <div className="text-[9px] uppercase tracking-widest text-muted-foreground">Date</div>
+              <div className="text-[11px] font-medium">{date}</div>
+            </div>
+          </div>
+          <div className="mt-3 flex items-center justify-center gap-1.5 rounded-md bg-success/10 py-1.5 text-success">
+            <BadgeCheck size={13} />
+            <span className="font-mono text-[10px] tracking-wide">{certId}</span>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-// Two stacked credential cards: instructor behind, student in front, equal height; hover separates.
+// Two stacked award certificates, equal height; hover fans them apart.
 const DemoCards = () => (
-  <div className="group relative mx-auto h-[360px] w-full max-w-sm lg:mx-0 lg:ml-auto">
-    <CredentialCard
-      kind="Instructor"
-      name="Dr. Adebayo Williams"
-      course="Distributed Systems"
+  <div className="group relative mx-auto h-[380px] w-full max-w-sm lg:mx-0 lg:ml-auto">
+    <CertificateCard
+      recipient="Dr. Adebayo Williams"
+      credential="Distributed Systems"
       school="UNILAG"
-      did="did:educhain:4c1a…9f3b"
-      seed="lecturer"
-      className="absolute left-0 top-7 w-[88%] rotate-[-6deg] transition-all duration-300 group-hover:-translate-x-3 group-hover:-rotate-[10deg]"
+      date="Mar 2026"
+      certId="did:educhain:4c1a…9f3b"
+      className="absolute left-0 top-9 w-[88%] rotate-[-6deg] transition-all duration-300 group-hover:-translate-x-3 group-hover:-rotate-[10deg]"
     />
-    <CredentialCard
-      kind="Student"
-      name="Excel Chimnonso"
-      course="Software Engineering"
+    <CertificateCard
+      recipient="Excel Chimnonso"
+      credential="B.Eng Software Engineering"
       school="FUTO"
-      did="did:educhain:8f2a…1b9c"
-      seed="excel"
+      date="May 2026"
+      certId="did:educhain:8f2a…1b9c"
       className="absolute right-0 top-0 w-[88%] rotate-[4deg] transition-all duration-300 group-hover:translate-x-3 group-hover:rotate-[7deg]"
     />
   </div>

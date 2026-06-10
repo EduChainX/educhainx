@@ -100,6 +100,16 @@
     @apply transition-all duration-200 hover:-translate-y-1 hover:border-primary/50;
   }
 
+  /* page-wide decorative grid, vignette-masked so it fades toward the edges */
+  .bg-grid-fade {
+    background-image:
+      linear-gradient(to right, rgb(var(--border) / 0.55) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(var(--border) / 0.55) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 38%, #000 35%, transparent 80%);
+    mask-image: radial-gradient(ellipse 75% 60% at 50% 38%, #000 35%, transparent 80%);
+  }
+
   /* skeleton shimmer (replaces spinners) */
   .skeleton {
     @apply bg-muted rounded-md relative overflow-hidden;
