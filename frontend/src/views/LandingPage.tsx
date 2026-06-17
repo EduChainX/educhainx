@@ -204,12 +204,12 @@ export const LandingPage = () => {
           </div>
 
           {/* ============ MOBILE HERO ============ */}
-          <div className="flex flex-col px-5 pt-6 lg:hidden realtive z-20">
-            <div className="absolute top-10 left-0 right-0 h-[400px] lg:hidden overflow-hidden">
+          <div className="flex flex-col px-5 pt-6 lg:hidden relative z-20 overflow-hidden">
+            <div className="absolute  inset-0 lg:hidden overflow-hidden">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={`mobile-bg-${current}`}
-                  className="absolute inset-0 bg-cover bg-center"
+                  className="absolute inset-0 bg- bg-center"
                   style={{ backgroundImage: `url(${slides[current].imgUrl})` }}
                   initial={{ x: "100%", opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
@@ -218,14 +218,12 @@ export const LandingPage = () => {
                 />
               </AnimatePresence>
               {/* Gradient overlay for text readability */}
-              {/* <div
+              <div
                 className={cn(
                   "absolute inset-0 z-[1]",
-                  isLight
-                    ? "bg-gradient-to-b from-transparent via-light-bg/60 to-light-bg"
-                    : "bg-gradient-to-b from-transparent via-dark/60 to-dark"
+                  `${!isLight && "bg-gradient-to-b from-transparent via-dark/60 to-dark"}`
                 )}
-              /> */}
+              />
             </div>
             <section className="relative z-20">
               <p className="text-[12px] font-semibold tracking-[1.5px] text-brand-accent uppercase mb-1">
