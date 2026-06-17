@@ -321,7 +321,7 @@ export const OnboardingFlow = () => {
                     onClick={() => setRole('learner')}
                     className={cn(
                       "p-6 rounded-xl border transition-all text-left space-y-4",
-                      role === 'learner' ? "bg-primary/10 border-primary shadow-[0_0_20px_rgb(var(--primary)/0.15)]" : "bg-card border-border hover:border-primary/30"
+                      role === 'learner' ? "bg-primary/10 border-primary shadow-[0_0_20px_color-mix(in_srgb,var(--color-primary)_15%,transparent)]" : "bg-card border-border hover:border-primary/30"
                     )}
                   >
                     <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", role === 'learner' ? "bg-primary text-white" : "bg-muted text-muted-foreground")}>
@@ -336,7 +336,7 @@ export const OnboardingFlow = () => {
                     onClick={() => setRole('instructor')}
                     className={cn(
                       "p-6 rounded-xl border transition-all text-left space-y-4",
-                      role === 'instructor' ? "bg-accent/10 border-accent shadow-[0_0_20px_rgb(var(--accent)/0.15)]" : "bg-card border-border hover:border-accent/30"
+                      role === 'instructor' ? "bg-accent/10 border-accent shadow-[0_0_20px_color-mix(in_srgb,var(--color-accent)_15%,transparent)]" : "bg-card border-border hover:border-accent/30"
                     )}
                   >
                     <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", role === 'instructor' ? "bg-accent text-white" : "bg-muted text-muted-foreground")}>
