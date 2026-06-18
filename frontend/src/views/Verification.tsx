@@ -21,6 +21,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { verifyCert } from '@/lib/api';
 
+/** Public employer verification page for checking credentials against the on-chain registry. */
 export const VerificationPage = () => {
   const [query, setQuery] = React.useState('');
   const [status, setStatus] = React.useState<'idle' | 'loading' | 'valid' | 'invalid'>('idle');

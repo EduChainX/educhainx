@@ -1,12 +1,11 @@
 "use client";
 
 import React from 'react';
-import { 
-  BookOpen, 
-  Award, 
-  Coins, 
-  CheckCircle, 
-  Clock, 
+import {
+  BookOpen,
+  Award,
+  Coins,
+  Clock,
   TrendingUp,
   ExternalLink,
   ChevronRight,
@@ -17,6 +16,7 @@ import { MetricCard, NFTTypePill, OnChainBadge } from '@/components/educhain/sha
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 
+/** Learner dashboard showing enrolled courses, certificates, and study metrics. */
 export const LearnerDashboard = () => {
   return (
     <AppLayout>

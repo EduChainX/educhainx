@@ -298,6 +298,7 @@ function PaymentCard({ isLight }: { isLight: boolean }) {
 
 const visualCards = [VerificationCard, NFTCertificateCard, PaymentCard];
 
+/** "Why EduChain" section showcasing the verified-student gate, NFT certificates, and instant payments. */
 export function WhySection() {
   const [mounted, setMounted] = useState(false);
   const { theme } = useTheme();

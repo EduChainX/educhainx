@@ -80,6 +80,7 @@ function ThemeToggleSwitch({
   );
 }
 
+/** Landing page with hero carousel, feature sections, and stats. */
 export const LandingPage = () => {
   const router = useRouter();
   const [current, setCurrent] = useState(0);
@@ -209,7 +210,7 @@ export const LandingPage = () => {
               <AnimatePresence mode="wait">
                 <motion.div
                   key={`mobile-bg-${current}`}
-                  className="absolute inset-0 bg- bg-center"
+                  className="absolute inset-0 bg-cover bg-center"
                   style={{ backgroundImage: `url(${slides[current].imgUrl})` }}
                   initial={{ x: "100%", opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
@@ -256,7 +257,7 @@ export const LandingPage = () => {
               <p
                 className={cn(
                   "text-[14px] leading-[1.8] mb-5 p-4",
-                  isLight ? "text-light-text bg-light-bg/70 backdrop-blur-[]" : "text-white/65"
+                  isLight ? "text-light-text bg-light-bg/70 backdrop-blur-sm" : "text-white/65"
                 )}
               >
                 {slide.description}
@@ -276,7 +277,7 @@ export const LandingPage = () => {
                     "flex items-center justify-center text-[14px] font-medium py-3.5 rounded-lg border transition",
                     isLight
                       ? "border-brand-primary/15 text-white bg-brand-primary"
-                      : "border-white/15 text-white/60 hover:bg-white"
+                      : "border-white/15 text-white/60 hover:text-white hover:bg-brand-primary"
                   )}
                 >
                   Explore Courses

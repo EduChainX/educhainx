@@ -5,6 +5,7 @@ import { Copy, ShieldCheck, Cpu, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 
+/** Truncated wallet address with click-to-copy. */
 export const WalletAddressChip = ({ address, className }: { address: string; className?: string }) => {
   const truncated = `${address.slice(0, 6)}...${address.slice(-4)}`;
   
@@ -27,6 +28,7 @@ export const WalletAddressChip = ({ address, className }: { address: string; cla
   );
 };
 
+/** Green "Verified Student" pill badge. */
 export const VerifiedStudentBadge = ({ className }: { className?: string }) => (
   <div className={cn("inline-flex items-center gap-1.5 px-2 py-0.5 bg-success/10 text-success border border-success/20 rounded-full text-[11px] font-medium", className)}>
     <ShieldCheck className="w-3 h-3" />
@@ -34,6 +36,7 @@ export const VerifiedStudentBadge = ({ className }: { className?: string }) => (
   </div>
 );
 
+/** Truncated DID display with accent styling. */
 export const DIDString = ({ did, className }: { did: string; className?: string }) => {
   const truncated = `did:educhain:${did.slice(0, 8)}...`;
   
@@ -45,6 +48,7 @@ export const DIDString = ({ did, className }: { did: string; className?: string 
   );
 };
 
+/** Animated "On-Chain Verified" status badge. */
 export const OnChainBadge = ({ className }: { className?: string }) => (
   <div className={cn("inline-flex items-center gap-1.5 px-2 py-0.5 bg-primary/10 text-primary border border-primary/20 rounded-full text-[11px] font-medium", className)}>
     <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
@@ -52,6 +56,7 @@ export const OnChainBadge = ({ className }: { className?: string }) => (
   </div>
 );
 
+/** Dashboard metric card with icon, value, and trend indicator. */
 export const MetricCard = ({ label, value, icon: Icon, trend }: { label: string; value: string | number; icon: any; trend?: string }) => (
   <div className="p-4 bg-card border border-border rounded-lg card-hover">
     <div className="flex items-center justify-between mb-2">
@@ -65,6 +70,7 @@ export const MetricCard = ({ label, value, icon: Icon, trend }: { label: string;
   </div>
 );
 
+/** Shimmer loading placeholder. */
 export const Skeleton = ({ className }: { className?: string }) => (
   <div className={cn("skeleton", className)} />
 );
@@ -80,6 +86,7 @@ const ANIMALS = [
   'Bison', 'Cobra', 'Wren', 'Jaguar', 'Ibis', 'Stag', 'Orca', 'Raven',
 ];
 
+/** Derives a stable pseudonym (e.g. "SwiftFalcon123") from a wallet address. */
 export function pseudonymFromAddress(address: string): string {
   let hash = 0;
   for (let i = 0; i < address.length; i++) {
@@ -91,6 +98,7 @@ export function pseudonymFromAddress(address: string): string {
   return `${adj}${animal}${num}`;
 }
 
+/** NFT or SFT type indicator pill. */
 export const NFTTypePill = ({ type }: { type: 'NFT' | 'SFT' }) => (
   <span className={cn(
     "px-2 py-0.5 rounded text-[10px] font-bold uppercase",

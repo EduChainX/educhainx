@@ -17,6 +17,7 @@ const MIN_DISPLAY_MS = 3000;
 const STATUS_INTERVAL_MS = 600;
 const FADE_DURATION_MS = 700;
 
+/** Full-screen branded loading overlay shown during page transitions. */
 export function PageLoader() {
   const pathname = usePathname();
   const [phase, setPhase] = React.useState<"loading" | "fading" | "done">("loading");

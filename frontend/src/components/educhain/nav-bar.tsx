@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 
+/** Desktop-only floating navigation bar with expandable icon links. */
 export const NavBar = () => {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);

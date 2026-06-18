@@ -72,6 +72,7 @@ function AnimatedCounter({
   );
 }
 
+/** Animated statistics banner displaying platform metrics with scroll-triggered counters. */
 export function StatsBanner() {
   const [mounted, setMounted] = useState(false);
   const { theme } = useTheme();

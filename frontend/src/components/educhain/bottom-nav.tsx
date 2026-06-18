@@ -20,6 +20,7 @@ const drawerItems = [
   { icon: Award, label: "Certificates", href: "/certificates" },
 ];
 
+/** Mobile-only bottom navigation bar with expandable "More" drawer. */
 export function BottomNav() {
   const pathname = usePathname();
   const [mounted, setMounted] = React.useState(false);

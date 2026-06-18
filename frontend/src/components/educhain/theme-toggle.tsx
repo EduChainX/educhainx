@@ -5,6 +5,7 @@ import { useTheme } from 'next-themes';
 import { Sun, Moon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
+/** Sliding toggle switch for dark/light theme. */
 export const ThemeToggle = ({ className }: { className?: string }) => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);

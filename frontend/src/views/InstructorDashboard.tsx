@@ -1,13 +1,11 @@
 "use client";
 
 import React from 'react';
-import { 
-  Users, 
-  DollarSign, 
-  Award, 
-  Plus, 
-  TrendingUp, 
-  TrendingDown,
+import {
+  Users,
+  DollarSign,
+  Award,
+  Plus,
   MoreVertical,
   CheckCircle2,
   Clock,
@@ -19,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 
+/** Instructor console for managing courses, students, and revenue. */
 export const InstructorDashboard = () => {
   return (
     <AppLayout>

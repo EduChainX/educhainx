@@ -47,6 +47,7 @@ function toDisplay(c: Course): DisplayCourse {
   };
 }
 
+/** Course marketplace with search, filtering, and on-chain enrollment. */
 export const Marketplace = () => {
   const [courses, setCourses] = React.useState<DisplayCourse[]>([]);
   const [loading, setLoading] = React.useState(true);

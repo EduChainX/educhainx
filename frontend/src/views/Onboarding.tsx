@@ -10,7 +10,8 @@ import {
   Loader2,
   ChevronRight,
   ChevronLeft,
-  ExternalLink
+  ExternalLink,
+  BookOpen
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useWallet } from '@solana/wallet-adapter-react';
@@ -30,6 +31,7 @@ const steps = [
   { id: 4, title: 'Role Selection', icon: UserCircle },
 ];
 
+/** Multi-step onboarding: matric verification, DID creation, wallet binding, and role selection. */
 export const OnboardingFlow = () => {
   const router = useRouter();
   const { select, connect, connected, connecting, publicKey, signMessage, wallet } = useWallet();
@@ -325,7 +327,7 @@ export const OnboardingFlow = () => {
                     )}
                   >
                     <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", role === 'learner' ? "bg-primary text-white" : "bg-muted text-muted-foreground")}>
-                      <BookOpenIcon size={24} />
+                      <BookOpen size={24} />
                     </div>
                     <div>
                       <h4 className="font-bold">Learner</h4>
@@ -380,19 +382,3 @@ export const OnboardingFlow = () => {
   );
 };
 
-const BookOpenIcon = ({ size, className }: { size: number, className?: string }) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-  </svg>
-);

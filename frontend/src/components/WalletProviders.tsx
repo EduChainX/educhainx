@@ -9,6 +9,7 @@ import { PhantomWalletAdapter, SolflareWalletAdapter } from "@solana/wallet-adap
 import { clusterApiUrl } from "@solana/web3.js";
 import "@solana/wallet-adapter-react-ui/styles.css";
 
+/** Solana wallet adapter providers (Phantom + Solflare) on devnet. */
 export function WalletProviders({ children }: { children: React.ReactNode }) {
   // devnet for the hackathon — flip to mainnet-beta after audit
   const endpoint = useMemo(() => clusterApiUrl("devnet"), []);

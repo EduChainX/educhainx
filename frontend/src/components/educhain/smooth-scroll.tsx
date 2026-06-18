@@ -3,6 +3,7 @@
 import React from "react";
 import Lenis from "lenis";
 
+/** Lenis-powered smooth scroll wrapper. */
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     const lenis = new Lenis({

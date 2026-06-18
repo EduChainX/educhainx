@@ -37,6 +37,7 @@ const socialIcons = [
   },
 ];
 
+/** Site-wide footer with community links, explore links, email subscription, and social icons. */
 export function SiteFooter() {
   const [mounted, setMounted] = React.useState(false);
   const { theme } = useTheme();

@@ -20,6 +20,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { cn } from '@/lib/utils';
 
+/** User profile with DID, wallet info, credentials, owned courses, and activity timeline. */
 export const ProfilePage = () => {
   const { publicKey } = useWallet();
   const address = publicKey?.toBase58() ?? '8xJ4n9P2q1mZexampleaddr9a2z';

@@ -20,6 +20,7 @@ import { Button } from '@/components/ui/button';
 import { WalletAddressChip, VerifiedStudentBadge } from './shared';
 import { ThemeToggle } from './theme-toggle';
 
+/** Collapsible sidebar with navigation links, wallet info, and disconnect button. */
 export const Sidebar = ({ collapsed, setCollapsed }: { collapsed: boolean; setCollapsed: (v: boolean) => void }) => {
   const pathname = usePathname();
   const { publicKey, disconnect, connected } = useWallet();
@@ -91,6 +92,7 @@ export const Sidebar = ({ collapsed, setCollapsed }: { collapsed: boolean; setCo
   );
 };
 
+/** Standard app layout with sidebar navigation and top header bar. */
 export const AppLayout = ({ children }: { children: React.ReactNode }) => {
   const [collapsed, setCollapsed] = React.useState(false);
 

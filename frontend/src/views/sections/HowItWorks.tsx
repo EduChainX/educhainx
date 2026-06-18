@@ -33,6 +33,7 @@ const steps = [
   },
 ];
 
+/** Three-step process section: matric verification, DID minting, and on-chain certificate earning. */
 export function HowItWorks() {
   const [mounted, setMounted] = useState(false);
   const { theme } = useTheme();

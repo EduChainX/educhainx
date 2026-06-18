@@ -14,6 +14,7 @@ const bulletPoints = [
   "Instant result, with the on-chain proof one click away.",
 ];
 
+/** Credential verification showcase with interactive 3D card and CTA to the verification registry. */
 export function VerifyShowcase() {
   const [mounted, setMounted] = useState(false);
   const { theme } = useTheme();
