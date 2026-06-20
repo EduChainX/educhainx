@@ -1,0 +1,61 @@
+[33mcommit 4125e36c2e5b64520a3c44360d2359c557914fe2[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdev[m[33m, [m[1;31morigin/dev[m[33m)[m
+Author: rave <mercyadenubi2@gmail.com>
+Date:   Mon Jun 8 14:11:25 2026 +0100
+
+    Port new shadcn UI onto Next.js frontend, wired to wallet + Go API
+    
+    Implement the polished newFront UI inside the existing Next.js 14 app
+    (frontend/, bun) while keeping the previous frontend's real functionality,
+    connections, and dependencies.
+    
+    - Tailwind v4 tokens -> v3 (RGB-channel CSS vars + tailwind.config), Outfit/
+      JetBrains Mono via next/font.
+    - react-router -> Next app-router: 9 routes in src/app/*/page.tsx rendering
+      client views in src/views/.
+    - Ported the shadcn subset actually used (button, input, progress, badge, tabs,
+      sonner) + educhain shared/layout; added React 18-compatible deps via bun.
+    - Real wiring: onboarding (verifyMatric -> DID -> wallet connect -> signMessage
+      -> bindWallet), marketplace (listCourses), verification (verifyCert added to
+      api.ts), sidebar wallet chip + disconnect via useWallet.
+    - next.config: inert DISABLE_WEBPACK_CACHE escape hatch for low-disk builds.
+    
+    Verified: tsc --noEmit clean and full next build succeeds (all routes prerender).
+    
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+ .gitignore                                  |   1 [32m+[m
+ frontend/README.md                          |  48 [32m++[m[31m--[m
+ frontend/bun.lock                           |  63 [32m+++++[m
+ frontend/next.config.js                     |   9 [32m+[m
+ frontend/package.json                       |  25 [32m+[m[31m-[m
+ frontend/src/app/certificates/page.tsx      |   5 [32m+[m
+ frontend/src/app/dashboard/page.tsx         |   5 [32m+[m
+ frontend/src/app/globals.css                |  60 [32m++++[m[31m-[m
+ frontend/src/app/instructor/page.tsx        |   5 [32m+[m
+ frontend/src/app/layout.tsx                 |  22 [32m+[m[31m-[m
+ frontend/src/app/marketplace/page.tsx       |   5 [32m+[m
+ frontend/src/app/onboarding/page.tsx        | 115 [32m+[m[31m-------[m
+ frontend/src/app/page.tsx                   |  34 [32m+[m[31m--[m
+ frontend/src/app/profile/page.tsx           |   5 [32m+[m
+ frontend/src/app/settings/page.tsx          |   5 [32m+[m
+ frontend/src/app/verification/page.tsx      |   5 [32m+[m
+ frontend/src/components/educhain/layout.tsx | 121 [32m+++++++++[m
+ frontend/src/components/educhain/shared.tsx |  75 [32m++++++[m
+ frontend/src/components/ui/badge.tsx        |  46 [32m++++[m
+ frontend/src/components/ui/button.tsx       |  60 [32m+++++[m
+ frontend/src/components/ui/input.tsx        |  21 [32m++[m
+ frontend/src/components/ui/progress.tsx     |  31 [32m+++[m
+ frontend/src/components/ui/sonner.tsx       |  26 [32m++[m
+ frontend/src/components/ui/tabs.tsx         |  66 [32m+++++[m
+ frontend/src/hooks/use-mobile.ts            |  21 [32m++[m
+ frontend/src/lib/api.ts                     |  13 [32m+[m
+ frontend/src/lib/utils.ts                   |   6 [32m+[m
+ frontend/src/views/Dashboard.tsx            | 130 [32m+++++++++[m
+ frontend/src/views/InstructorDashboard.tsx  | 141 [32m++++++++++[m
+ frontend/src/views/LandingPage.tsx          | 145 [32m++++++++++[m
+ frontend/src/views/Marketplace.tsx          | 201 [32m++++++++++++++[m
+ frontend/src/views/Onboarding.tsx           | 398 [32m++++++++++++++++++++++++++++[m
+ frontend/src/views/Profile.tsx              | 160 [32m+++++++++++[m
+ frontend/src/views/Verification.tsx         | 171 [32m++++++++++++[m
+ frontend/tailwind.config.js                 |  57 [32m+++[m[31m-[m
+ 35 files changed, 2127 insertions(+), 174 deletions(-)

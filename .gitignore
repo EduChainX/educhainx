@@ -6,6 +6,7 @@ backend/server
 frontend/node_modules/
 frontend/.next/
 frontend/.env.local
+*.tsbuildinfo
 
 # anchor / rust
 contracts/target/
