@@ -27,6 +27,31 @@ pub mod educhain {
         Ok(())
     }
 
+    // Commit the off-chain onboarding record to devnet/mainnet without exposing PII.
+    // The backend keeps the raw student name, account name, and SheerID response; this
+    // PDA stores hashes plus the selected course pointer so the flow is independently auditable.
+    pub fn onboard_student(
+        ctx: Context<OnboardStudent>,
+        name_hash: [u8; 32],
+        account_name_hash: [u8; 32],
+        sheerid_proof_hash: [u8; 32],
+    ) -> Result<()> {
+        let reg = &ctx.accounts.did_registry;
+        require!(reg.bound, EduErr::DidNotBound);
+        require_keys_eq!(reg.wallet, ctx.accounts.student.key(), EduErr::WrongStudent);
+
+        let profile = &mut ctx.accounts.student_profile;
+        profile.student = ctx.accounts.student.key();
+        profile.selected_course = ctx.accounts.course.key();
+        profile.did_hash = reg.did_hash;
+        profile.name_hash = name_hash;
+        profile.account_name_hash = account_name_hash;
+        profile.sheerid_proof_hash = sheerid_proof_hash;
+        profile.sheerid_verified = true;
+        profile.onboarded_at = Clock::get()?.unix_timestamp;
+        Ok(())
+    }
+
     // ---- courses -------------------------------------------------------------------
 
     // Publish a course. price + splits + royalty are locked in here at creation time so the
@@ -125,6 +150,27 @@ pub struct BindDid<'info> {
 }
 
 #[derive(Accounts)]
+pub struct OnboardStudent<'info> {
+    #[account(
+        init,
+        payer = student,
+        space = 8 + StudentProfile::LEN,
+        seeds = [b"student", student.key().as_ref()],
+        bump
+    )]
+    pub student_profile: Account<'info, StudentProfile>,
+    #[account(
+        seeds = [b"did", student.key().as_ref()],
+        bump
+    )]
+    pub did_registry: Account<'info, DidRegistry>,
+    #[account(mut)]
+    pub student: Signer<'info>,
+    pub course: Account<'info, Course>,
+    pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
 pub struct CreateCourse<'info> {
     #[account(
         init,
@@ -186,6 +232,21 @@ impl DidRegistry {
 }
 
 #[account]
+pub struct StudentProfile {
+    pub student: Pubkey,
+    pub selected_course: Pubkey,
+    pub did_hash: [u8; 32],
+    pub name_hash: [u8; 32],
+    pub account_name_hash: [u8; 32],
+    pub sheerid_proof_hash: [u8; 32],
+    pub sheerid_verified: bool,
+    pub onboarded_at: i64,
+}
+impl StudentProfile {
+    pub const LEN: usize = 32 + 32 + 32 + 32 + 32 + 32 + 1 + 8;
+}
+
+#[account]
 pub struct Course {
     pub instructor: Pubkey,
     pub price: u64,
@@ -222,4 +283,8 @@ pub enum EduErr {
     SoldOut,
     #[msg("math overflow")]
     MathOverflow,
+    #[msg("student wallet is not bound to a DID")]
+    DidNotBound,
+    #[msg("DID registry belongs to a different student wallet")]
+    WrongStudent,
 }

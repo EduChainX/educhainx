@@ -8,6 +8,7 @@ by the program: DID binding, course publish, atomic buy+split, certificate issua
 | Instruction         | What it does                                                        |
 |---------------------|--------------------------------------------------------------------|
 | `bind_did`          | Finalize wallet↔DID binding on-chain (the moat)                    |
+| `onboard_student`   | Commit hashed onboarding data + selected course after DID binding  |
 | `create_course`     | Publish a course; lock price, splits, royalty, content hash        |
 | `buy_course`        | Pay → split to tutor + platform atomically → token = receipt       |
 | `issue_certificate` | Mint a tamper-proof cert; only on real completion                  |
@@ -15,6 +16,8 @@ by the program: DID binding, course publish, atomic buy+split, certificate issua
 ## State
 
 - `DidRegistry` — `wallet ↔ did_hash`, bound flag, reputation. PDA seeded by student key.
+- `StudentProfile` — student wallet, selected course, DID hash, name/account/proof hashes,
+  SheerID verified flag, onboarding timestamp. PDA seeded by student key.
 - `Course` — instructor, price, token type (NFT/SFT), supply/sold, royalty/platform bps, content hash.
 - `Certificate` — student, course, did_hash, Arweave pointer. PDA seeded by (student, course).
 
