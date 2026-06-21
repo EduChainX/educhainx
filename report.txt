@@ -1,0 +1,74 @@
+EduChainx implementation report
+Date: 2026-06-21
+
+Added
+-----
+1. Backend student onboarding
+   - Added backend/internal/student service for student onboarding records.
+   - Captures student name, account name, email, matric, DID, wallet, selected course, related courses, and verification status.
+   - Adds a student_hash commitment so the app can reference an off-chain profile without putting PII on-chain.
+   - Rejects onboarding when the selected course does not exist or the mock SheerID proof is rejected.
+
+2. Mock SheerID proof flow
+   - Added deterministic sheerid_mock verification.
+   - Non-empty proof tokens are accepted unless they start with "reject" or "invalid".
+   - Proof values are hashed before returning/storing verification metadata.
+
+3. Marketplace course seed data
+   - Seeded four available courses with instructor names, categories, levels, tags, availability, rating, learner counts, and related course IDs.
+   - Added related-course lookup and available marketplace course listing.
+
+4. Backend API routes
+   - GET  /api/v1/marketplace/courses
+   - GET  /api/v1/courses/:id/related
+   - POST /api/v1/sheerid/verify
+   - POST /api/v1/students/onboard
+   - GET  /api/v1/students
+   - GET  /api/v1/students/:id
+   - GET  /api/v1/wallets/:wallet/student
+   - GET  /api/v1/solana/config
+
+5. Solana / Anchor program
+   - Added onboard_student instruction.
+   - Added StudentProfile PDA state.
+   - StudentProfile stores wallet, selected course, DID hash, name hash, account-name hash, SheerID proof hash, verified flag, and onboarding timestamp.
+   - Raw student name and SheerID details remain off-chain.
+
+6. Frontend API helpers
+   - Expanded frontend/src/lib/api.ts Course type with marketplace fields.
+   - Added typed helpers for marketplace courses, related courses, SheerID verification, student onboarding, student lookup, and Solana config.
+
+7. Documentation
+   - Added a root README Infrastructure section for the frontend developer.
+   - Documented backend run commands, env vars, endpoint payloads/responses, smart-contract instructions, local Anchor commands, and devnet deployment flow.
+   - Updated backend and contract READMEs with the new routes and onboarding contract state.
+
+Verified
+--------
+1. Backend tests pass:
+   - Command: go test ./...
+   - Result: pass
+
+2. Added focused tests for:
+   - Seeded marketplace courses.
+   - Related course lookup.
+   - Student onboarding with selected course.
+   - Unknown course rejection.
+   - Mock SheerID proof rejection.
+   - HTTP routes for marketplace courses, onboarding, wallet lookup, and SheerID rejection.
+
+Not verified locally
+--------------------
+1. Anchor build/test was not run because this environment does not have cargo or anchor installed:
+   - cargo --version -> command not found
+   - anchor --version -> command not found
+
+2. Frontend TypeScript check was not completed because frontend/node_modules is not installed:
+   - npx tsc --noEmit returned the npx placeholder message instead of the project compiler.
+
+Notes
+-----
+1. Backend storage is still in-memory, matching the current project pattern. Swap the services to Postgres/Redis before production.
+2. SheerID is mocked behind a clean service boundary. Replace the mock with the real SheerID API adapter when credentials are available.
+3. The Anchor program stores hashed commitments only. The backend remains responsible for raw profile data and proof-provider details.
+4. The configured Solana default is devnet.
