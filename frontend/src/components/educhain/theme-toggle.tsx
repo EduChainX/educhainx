@@ -7,11 +7,13 @@ import { cn } from '@/lib/utils';
 
 /** Sliding toggle switch for dark/light theme. */
 export const ThemeToggle = ({ className }: { className?: string }) => {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
 
-  const isDark = theme !== 'light';
+  // Default to dark before mount (app default), so the switch never flashes the
+  // wrong side on a dark page. Clicking always flips to the opposite mode.
+  const isDark = !mounted || resolvedTheme !== 'light';
 
   return (
     <button
@@ -26,10 +28,10 @@ export const ThemeToggle = ({ className }: { className?: string }) => {
       <span
         className={cn(
           "inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary text-primary-foreground shadow transition-transform duration-200",
-          mounted && isDark ? "translate-x-1" : "translate-x-7"
+          isDark ? "translate-x-1" : "translate-x-7"
         )}
       >
-        {mounted && isDark ? <Moon size={13} /> : <Sun size={13} />}
+        {isDark ? <Moon size={13} /> : <Sun size={13} />}
       </span>
     </button>
   );
