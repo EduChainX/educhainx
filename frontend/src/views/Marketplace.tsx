@@ -100,7 +100,7 @@ export const Marketplace = () => {
               placeholder="Search for courses, instructors, or institutions..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="h-14 pl-12 bg-card border-border text-lg focus:ring-primary/50"
+              className="h-14 pl-12 bg-card border-border text-sm sm:text-lg placeholder:text-xs sm:placeholder:text-sm placeholder:truncate focus:ring-primary/50"
             />
           </div>
           <div className="flex flex-wrap gap-2">

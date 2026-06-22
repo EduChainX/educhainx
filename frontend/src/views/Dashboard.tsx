@@ -22,23 +22,23 @@ export const LearnerDashboard = () => {
     <AppLayout>
       <div className="space-y-8">
         {/* Welcome Header */}
-        <div className="bg-gradient-to-r from-primary/20 via-primary/5 to-transparent border border-primary/20 rounded-xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+        <div className="bg-gradient-to-r from-primary/20 via-primary/5 to-transparent border border-primary/20 rounded-xl p-5 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
-          <div className="space-y-2 relative z-10">
-            <div className="flex items-center gap-3">
-              <h1 className="text-3xl font-bold">Welcome back, John!</h1>
+          <div className="space-y-2 relative z-10 min-w-0">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+              <h1 className="text-2xl sm:text-3xl font-bold">Welcome back, John!</h1>
               <OnChainBadge />
             </div>
-            <p className="text-muted-foreground">You've completed 65% of your current semester goals. Keep it up!</p>
+            <p className="text-sm sm:text-base text-muted-foreground">You've completed 65% of your current semester goals. Keep it up!</p>
           </div>
-          <div className="flex gap-4 relative z-10">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 relative z-10 shrink-0">
             <Button className="bg-primary text-white hover:bg-primary/90">Resume Learning</Button>
             <Button variant="outline" className="border-border">View Certificates</Button>
           </div>
         </div>
 
         {/* Metrics Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
           <MetricCard label="Courses Enrolled" value={4} icon={BookOpen} trend="+1 this month" />
           <MetricCard label="Certificates Earned" value={12} icon={Award} trend="+2 new" />
           <MetricCard label="EDU Tokens" value="2,450" icon={Coins} trend="+150" />
@@ -70,25 +70,25 @@ export const LearnerDashboard = () => {
                   type: "SFT" 
                 }
               ].map((course, i) => (
-                <div key={i} className="bg-card border border-border p-6 rounded-xl flex items-center gap-6 group hover:border-primary/30 transition-all">
-                  <div className="w-24 h-24 bg-muted rounded-lg overflow-hidden shrink-0 relative">
+                <div key={i} className="bg-card border border-border p-4 sm:p-6 rounded-xl flex items-center gap-4 sm:gap-6 group hover:border-primary/30 transition-all">
+                  <div className="w-16 h-16 sm:w-24 sm:h-24 bg-muted rounded-lg overflow-hidden shrink-0 relative">
                      <div className="absolute inset-0 bg-primary/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                         <PlayCircle className="text-primary w-10 h-10" />
                      </div>
                      <img src={`https://picsum.photos/seed/${i + 20}/200/200`} className="w-full h-full object-cover" alt={course.title} />
                   </div>
-                  <div className="flex-1 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
+                  <div className="flex-1 min-w-0 space-y-2 sm:space-y-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex items-center gap-2 min-w-0">
                         <NFTTypePill type={course.type as any} />
-                        <h4 className="font-bold group-hover:text-primary transition-colors">{course.title}</h4>
+                        <h4 className="font-bold truncate group-hover:text-primary transition-colors">{course.title}</h4>
                       </div>
-                      <span className="text-[12px] font-medium text-muted-foreground">{course.progress}%</span>
+                      <span className="text-[12px] font-medium text-muted-foreground shrink-0">{course.progress}%</span>
                     </div>
-                    <p className="text-[12px] text-muted-foreground">Next: <span className="text-foreground">{course.lastWatched}</span></p>
+                    <p className="text-[12px] text-muted-foreground truncate">Next: <span className="text-foreground">{course.lastWatched}</span></p>
                     <Progress value={course.progress} className="h-1.5 bg-muted" />
                   </div>
-                  <ChevronRight className="text-muted-foreground w-5 h-5 group-hover:text-primary transition-colors" />
+                  <ChevronRight className="text-muted-foreground w-5 h-5 shrink-0 group-hover:text-primary transition-colors" />
                 </div>
               ))}
             </div>

@@ -59,13 +59,13 @@ export const OnChainBadge = ({ className }: { className?: string }) => (
 /** Dashboard metric card with icon, value, and trend indicator. */
 export const MetricCard = ({ label, value, icon: Icon, trend }: { label: string; value: string | number; icon: any; trend?: string }) => (
   <div className="p-4 bg-card border border-border rounded-lg card-hover">
-    <div className="flex items-center justify-between mb-2">
-      <span className="text-muted-foreground text-[12px] font-medium uppercase tracking-wider">{label}</span>
-      <Icon className="w-4 h-4 text-primary" />
+    <div className="flex items-center justify-between gap-2 mb-2">
+      <span className="text-muted-foreground text-[11px] sm:text-[12px] font-medium uppercase tracking-wider truncate">{label}</span>
+      <Icon className="w-4 h-4 text-primary shrink-0" />
     </div>
-    <div className="flex items-end gap-2">
-      <span className="text-2xl font-bold">{value}</span>
-      {trend && <span className="text-success text-[12px] pb-1">{trend}</span>}
+    <div className="flex flex-wrap items-end gap-x-2">
+      <span className="text-xl sm:text-2xl font-bold">{value}</span>
+      {trend && <span className="text-success text-[11px] sm:text-[12px] pb-1">{trend}</span>}
     </div>
   </div>
 );

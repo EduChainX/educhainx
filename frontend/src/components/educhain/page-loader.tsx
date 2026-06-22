@@ -4,26 +4,34 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 
+// Ten ordered steps. The displayed step is derived from progress (0–100) so it
+// always advances strictly in order, 1 → 10, in lock-step with the bar.
 const STATUS_MESSAGES = [
   "Initializing blockchain...",
-  "Loading credentials...",
   "Connecting to Solana...",
+  "Establishing secure channel...",
+  "Loading credentials...",
+  "Syncing on-chain registry...",
   "Verifying certificates...",
+  "Decrypting identity vault...",
+  "Finalizing session...",
   "Almost ready...",
   "Welcome to EduChainX",
 ];
 
 const MIN_DISPLAY_MS = 3000;
-const STATUS_INTERVAL_MS = 600;
 const FADE_DURATION_MS = 700;
 
 /** Full-screen branded loading overlay shown during page transitions. */
 export function PageLoader() {
   const pathname = usePathname();
   const [phase, setPhase] = React.useState<"loading" | "fading" | "done">("loading");
-  const [statusIndex, setStatusIndex] = React.useState(0);
   const [progress, setProgress] = React.useState(0);
   const [isInitialLoad, setIsInitialLoad] = React.useState(true);
+
+  // Step 1..10 derived straight from progress so messages never skip or stall.
+  const stepCount = STATUS_MESSAGES.length;
+  const stepIndex = Math.min(stepCount - 1, Math.floor((progress / 100) * stepCount));
 
   const startFadeOut = React.useCallback(() => {
     setPhase("fading");
@@ -33,10 +41,6 @@ export function PageLoader() {
   React.useEffect(() => {
     let mounted = true;
     const startTime = Date.now();
-
-    const statusInterval = setInterval(() => {
-      setStatusIndex((i) => (i < STATUS_MESSAGES.length - 1 ? i + 1 : i));
-    }, STATUS_INTERVAL_MS);
 
     const progressInterval = setInterval(() => {
       const elapsed = Date.now() - startTime;
@@ -67,7 +71,6 @@ export function PageLoader() {
 
     return () => {
       mounted = false;
-      clearInterval(statusInterval);
       clearInterval(progressInterval);
       document.removeEventListener("readystatechange", handleReadyState);
     };
@@ -77,15 +80,10 @@ export function PageLoader() {
     if (isInitialLoad) return;
 
     setPhase("loading");
-    setStatusIndex(0);
     setProgress(0);
 
     let mounted = true;
     const startTime = Date.now();
-
-    const statusInterval = setInterval(() => {
-      setStatusIndex((i) => (i < STATUS_MESSAGES.length - 1 ? i + 1 : i));
-    }, STATUS_INTERVAL_MS);
 
     const progressInterval = setInterval(() => {
       const elapsed = Date.now() - startTime;
@@ -101,7 +99,6 @@ export function PageLoader() {
 
     return () => {
       mounted = false;
-      clearInterval(statusInterval);
       clearInterval(progressInterval);
       clearTimeout(timeout);
     };
@@ -161,9 +158,14 @@ export function PageLoader() {
           <span style={{ color: "#9E2102" }}>X</span>
         </div>
 
-        <p className="text-sm text-[#737373] h-5 whitespace-nowrap">
-          {STATUS_MESSAGES[statusIndex]}
-        </p>
+        <div className="flex flex-col items-center gap-1">
+          <span className="text-[11px] font-semibold tracking-[2px] uppercase text-[#E85E1D]">
+            Step {stepIndex + 1} / {stepCount}
+          </span>
+          <p className="text-sm text-[#737373] h-5 whitespace-nowrap">
+            {STATUS_MESSAGES[stepIndex]}
+          </p>
+        </div>
 
         <div className="flex flex-col items-center gap-1.5">
           <div className="w-48 sm:w-[200px] h-1 rounded-full bg-white/10 overflow-hidden">
