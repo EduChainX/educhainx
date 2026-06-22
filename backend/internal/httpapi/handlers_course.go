@@ -13,6 +13,12 @@ func listCoursesHandler(s *course.Service) gin.HandlerFunc {
 	}
 }
 
+func listMarketplaceCoursesHandler(s *course.Service) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"courses": s.ListAvailable()})
+	}
+}
+
 func getCourseHandler(s *course.Service) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		crs, ok := s.Get(c.Param("id"))
@@ -21,6 +27,17 @@ func getCourseHandler(s *course.Service) gin.HandlerFunc {
 			return
 		}
 		c.JSON(http.StatusOK, crs)
+	}
+}
+
+func relatedCoursesHandler(s *course.Service) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		courses, ok := s.Related(c.Param("id"))
+		if !ok {
+			c.JSON(http.StatusNotFound, gin.H{"error": "no such course"})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"courses": courses})
 	}
 }
 

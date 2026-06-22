@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Sun, Moon } from "lucide-react";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { ArrowRight, ArrowUp, Sun, Moon } from "lucide-react";
+import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import { WhySection } from "@/views/sections/WhySection";
@@ -110,6 +110,12 @@ export const LandingPage = () => {
   const heroTextY = useTransform(heroScroll, [0, 1], ["0%", "15%"]);
   const heroOpacity = useTransform(heroScroll, [0, 0.8], [1, 0]);
 
+  // Back-to-top button: only visible once the hero has scrolled out of view.
+  const [showTop, setShowTop] = useState(false);
+  useMotionValueEvent(heroScroll, "change", (v) => setShowTop(v >= 0.99));
+  const scrollToTop = () =>
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
   return (
     <main
       className={cn(
@@ -128,10 +134,8 @@ export const LandingPage = () => {
             : "bg-dark border-white/[0.08]"
         )}
       >
-        <span className="flex items-center gap-2 text-[20px] font-bold tracking-wide">
-          <Image src="/favicon.ico" alt="EduChainX" width={24} height={24} className="rounded-sm" />
-          Edu<span className="text-brand-accent">ChainX</span>
-        </span>
+        {/* Small screens: show the logo mark only (no wordmark). */}
+        <Image src="/favicon.ico" alt="EduChainX" width={32} height={32} className="rounded-sm" priority />
         <ThemeToggleSwitch isLight={isLight} onToggle={toggleTheme} />
       </div>
 
@@ -555,6 +559,25 @@ export const LandingPage = () => {
       <HowItWorks />
       <StatsBanner />
       <VerifyShowcase />
+
+      {/* Back-to-top — bottom-left, only after the hero has scrolled away. */}
+      <AnimatePresence>
+        {showTop && (
+          <motion.button
+            key="back-to-top"
+            onClick={scrollToTop}
+            aria-label="Back to top"
+            title="Back to top"
+            initial={{ opacity: 0, y: 20, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.8 }}
+            transition={{ duration: 0.25 }}
+            className="fixed right-4 sm:right-6 bottom-24 lg:bottom-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-brand-primary text-white shadow-lg shadow-brand-primary/30 hover:bg-brand-accent hover:scale-105 transition-colors"
+          >
+            <ArrowUp size={22} />
+          </motion.button>
+        )}
+      </AnimatePresence>
     </main>
   );
 };
