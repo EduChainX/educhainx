@@ -1,6 +1,5 @@
 "use client";
 
-import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
@@ -40,26 +39,21 @@ const socialIcons = [
 
 /** Site-wide footer with community links, explore links, email subscription, and social icons. */
 export function SiteFooter() {
-  const [mounted, setMounted] = React.useState(false);
-  const { theme } = useTheme();
-  React.useEffect(() => setMounted(true), []);
-  const isLight = mounted && theme === "light";
   const [email, setEmail] = React.useState("");
   const { hasSidebar, collapsed } = useSidebar();
 
   return (
     <footer
       className={cn(
-        "relative overflow-hidden transition-[margin] duration-300",
-        isLight ? "bg-[#1a0a00]" : "bg-[#0a0a0a]",
+        "relative overflow-hidden transition-[margin] duration-300 bg-card text-card-foreground border-t border-border",
         // When a sidebar is present: minimized rail tucks beside the footer
         // (reserve its 76px width); expanded rail (z-40) overlays the footer instead.
         hasSidebar && (collapsed ? "lg:ml-[76px]" : "lg:ml-0")
       )}
     >
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#E85E1D]/40 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
 
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[8rem] lg:text-[14rem] font-[900] leading-none select-none pointer-events-none text-white/[0.02] tracking-tight">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[8rem] lg:text-[14rem] font-[900] leading-none select-none pointer-events-none text-foreground/[0.03] tracking-tight">
         EDUCHAINX
       </div>
 
@@ -71,7 +65,7 @@ export function SiteFooter() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="inline-flex items-center gap-2.5 border border-[#E85E1D]/30 rounded-lg px-5 py-3.5 mb-5">
+            <div className="inline-flex items-center gap-2.5 border border-accent/30 rounded-lg px-5 py-3.5 mb-5">
               <Image
                 src="/favicon.ico"
                 alt="EduChainX"
@@ -79,15 +73,15 @@ export function SiteFooter() {
                 height={28}
                 className="rounded-sm"
               />
-              <span className="text-[18px] font-bold text-white tracking-wide">
-                Edu<span className="text-[#E85E1D]">ChainX</span>
+              <span className="text-[18px] font-bold text-foreground tracking-wide">
+                Edu<span className="text-accent">ChainX</span>
               </span>
             </div>
-            <p className="text-[11px] lg:text-[12px] leading-[1.8] text-white/35 max-w-[260px] mb-6">
+            <p className="text-[11px] lg:text-[12px] leading-[1.8] text-foreground/35 max-w-[260px] mb-6">
               Own your learning. Verify your future. Nigerian university credentials on-chain with real student-ID verification.
             </p>
-            <p className="text-[9px] text-white/20 tracking-wide">
-              Designed by <span className="text-[#E85E1D]/60">EduChainX Team</span>
+            <p className="text-[9px] text-foreground/20 tracking-wide">
+              Designed by <span className="text-accent/60">EduChainX Team</span>
             </p>
           </motion.div>
 
@@ -97,7 +91,7 @@ export function SiteFooter() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <h4 className="text-[11px] lg:text-[12px] font-semibold text-[#E85E1D] tracking-[1px] uppercase mb-5 lg:mb-7">
+            <h4 className="text-[11px] lg:text-[12px] font-semibold text-accent tracking-[1px] uppercase mb-5 lg:mb-7">
               Community
             </h4>
             <ul className="flex flex-col gap-3.5">
@@ -107,7 +101,7 @@ export function SiteFooter() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[12px] lg:text-[13px] text-white/40 hover:text-[#E85E1D] transition-colors duration-200"
+                    className="text-[12px] lg:text-[13px] text-foreground/40 hover:text-accent transition-colors duration-200"
                   >
                     {link.label}
                   </a>
@@ -122,7 +116,7 @@ export function SiteFooter() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h4 className="text-[11px] lg:text-[12px] font-semibold text-[#E85E1D] tracking-[1px] uppercase mb-5 lg:mb-7">
+            <h4 className="text-[11px] lg:text-[12px] font-semibold text-accent tracking-[1px] uppercase mb-5 lg:mb-7">
               Explore
             </h4>
             <ul className="flex flex-col gap-3.5">
@@ -130,7 +124,7 @@ export function SiteFooter() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-[12px] lg:text-[13px] text-white/40 hover:text-[#E85E1D] transition-colors duration-200"
+                    className="text-[12px] lg:text-[13px] text-foreground/40 hover:text-accent transition-colors duration-200"
                   >
                     {link.label}
                   </Link>
@@ -145,7 +139,7 @@ export function SiteFooter() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <h4 className="text-[11px] lg:text-[12px] font-semibold text-[#E85E1D] tracking-[1px] uppercase mb-5 lg:mb-7">
+            <h4 className="text-[11px] lg:text-[12px] font-semibold text-accent tracking-[1px] uppercase mb-5 lg:mb-7">
               Subscribe
             </h4>
             <div className="relative mb-6">
@@ -154,10 +148,10 @@ export function SiteFooter() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="w-full bg-transparent text-[12px] lg:text-[13px] text-white/70 placeholder:text-white/20 pb-3 border-b border-[#E85E1D]/30 focus:border-[#E85E1D] outline-none transition-colors duration-300 pr-8"
+                className="w-full bg-transparent text-[12px] lg:text-[13px] text-foreground/70 placeholder:text-foreground/20 pb-3 border-b border-accent/30 focus:border-accent outline-none transition-colors duration-300 pr-8"
               />
               <button
-                className="absolute right-0 bottom-3 text-[#E85E1D] hover:text-white transition-colors duration-200"
+                className="absolute right-0 bottom-3 text-accent hover:text-foreground transition-colors duration-200"
                 aria-label="Subscribe"
               >
                 <ArrowRight size={16} />
@@ -169,7 +163,7 @@ export function SiteFooter() {
                   key={social.label}
                   href="#"
                   aria-label={social.label}
-                  className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-white/30 hover:text-[#E85E1D] hover:border-[#E85E1D]/40 transition-all duration-200"
+                  className="w-9 h-9 rounded-full border border-border flex items-center justify-center text-foreground/30 hover:text-accent hover:border-accent/40 transition-all duration-200"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                     <path d={social.path} />
@@ -180,15 +174,15 @@ export function SiteFooter() {
           </motion.div>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6 border-t border-white/[0.06]">
-          <p className="text-[10px] lg:text-[11px] text-white/20">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6 border-t border-border">
+          <p className="text-[10px] lg:text-[11px] text-foreground/20">
             &copy; 2026 EduChainX. All rights reserved.
           </p>
           <div className="flex items-center gap-5">
-            <a href="#" className="text-[10px] lg:text-[11px] text-white/20 hover:text-[#E85E1D] transition-colors">
+            <a href="#" className="text-[10px] lg:text-[11px] text-foreground/20 hover:text-accent transition-colors">
               Privacy Policy
             </a>
-            <a href="#" className="text-[10px] lg:text-[11px] text-white/20 hover:text-[#E85E1D] transition-colors">
+            <a href="#" className="text-[10px] lg:text-[11px] text-foreground/20 hover:text-accent transition-colors">
               Terms of Service
             </a>
           </div>
@@ -197,10 +191,10 @@ export function SiteFooter() {
 
       <div className="absolute -right-20 lg:-right-10 top-1/2 -translate-y-1/2 pointer-events-none">
         <div className="relative w-[200px] h-[200px] lg:w-[280px] lg:h-[280px]">
-          <div className="absolute inset-0 rounded-full border-[3px] border-[#E85E1D]/25" />
-          <div className="absolute inset-5 lg:inset-7 rounded-full border-[2px] border-white/[0.06]" />
-          <div className="absolute inset-12 lg:inset-16 rounded-full bg-white/[0.03]" />
-          <div className="absolute top-4 right-8 lg:top-6 lg:right-12 w-3 h-3 rounded-full bg-[#E85E1D]/60" />
+          <div className="absolute inset-0 rounded-full border-[3px] border-accent/25" />
+          <div className="absolute inset-5 lg:inset-7 rounded-full border-[2px] border-border" />
+          <div className="absolute inset-12 lg:inset-16 rounded-full bg-foreground/[0.03]" />
+          <div className="absolute top-4 right-8 lg:top-6 lg:right-12 w-3 h-3 rounded-full bg-accent/60" />
         </div>
       </div>
     </footer>

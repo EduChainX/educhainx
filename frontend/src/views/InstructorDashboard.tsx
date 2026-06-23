@@ -27,7 +27,7 @@ export const InstructorDashboard = () => {
             <h1 className="text-2xl sm:text-3xl font-bold">Instructor Console</h1>
             <p className="text-sm sm:text-base text-muted-foreground">Manage your curriculum, student verification, and revenue.</p>
           </div>
-          <Button className="bg-primary text-white hover:bg-primary/90 gap-2 h-11 px-6 shrink-0">
+          <Button className="bg-primary text-primary-foreground hover:bg-primary/90 gap-2 h-11 px-6 shrink-0">
             <Plus size={20} /> Create New Course
           </Button>
         </div>

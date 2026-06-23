@@ -1,8 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useTheme } from "next-themes";
-import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { CheckCircle2, ArrowRight, User, Shield } from "lucide-react";
@@ -16,22 +13,13 @@ const bulletPoints = [
 
 /** Credential verification showcase with interactive 3D card and CTA to the verification registry. */
 export function VerifyShowcase() {
-  const [mounted, setMounted] = useState(false);
-  const { theme } = useTheme();
-  useEffect(() => setMounted(true), []);
-  const isLight = mounted && theme === "light";
   const router = useRouter();
 
   return (
-    <section
-      className={cn(
-        "relative py-20 lg:py-32 overflow-hidden transition-colors duration-300",
-        isLight ? "bg-[#FDF6EE] text-[#1a0a00]" : "bg-[#111111] text-white"
-      )}
-    >
+    <section className="relative py-20 lg:py-32 overflow-hidden transition-colors duration-300 bg-background text-foreground">
       <div className="relative max-w-6xl mx-auto px-5 lg:px-10">
         <motion.p
-          className="text-center text-[10px] lg:text-[12px] font-bold tracking-[4px] lg:tracking-[6px] uppercase mb-6 lg:mb-10 text-[#E85E1D]"
+          className="text-center text-[10px] lg:text-[12px] font-bold tracking-[4px] lg:tracking-[6px] uppercase mb-6 lg:mb-10 text-accent"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -42,10 +30,7 @@ export function VerifyShowcase() {
 
         <div className="relative flex items-center justify-center mb-4 lg:mb-6">
           <motion.div
-            className={cn(
-              "text-center select-none pointer-events-none font-[900] leading-[0.85] tracking-[-4px] lg:tracking-[-8px]",
-              isLight ? "text-[#1a0a00]/[0.07]" : "text-white/[0.06]"
-            )}
+            className="text-center select-none pointer-events-none font-[900] leading-[0.85] tracking-[-4px] lg:tracking-[-8px] text-foreground/[0.06]"
             style={{ fontSize: "clamp(80px, 18vw, 220px)" }}
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -68,19 +53,12 @@ export function VerifyShowcase() {
             }}
           >
             <motion.div
-              className={cn(
-                "w-[300px] sm:w-[360px] lg:w-[420px] rounded-2xl border p-7 lg:p-9 backdrop-blur-sm shadow-2xl cursor-pointer",
-                isLight
-                  ? "bg-white/90 border-[#9E2102]/10 shadow-[#9E2102]/10"
-                  : "bg-[#1a1a1a]/90 border-white/10 shadow-black/30"
-              )}
+              className="w-[300px] sm:w-[360px] lg:w-[420px] rounded-2xl border border-border p-7 lg:p-9 backdrop-blur-sm shadow-2xl cursor-pointer bg-card/90"
               whileHover={{
                 rotateY: 8,
                 rotateX: -4,
                 scale: 1.04,
-                boxShadow: isLight
-                  ? "0 25px 60px rgba(158,33,2,0.15)"
-                  : "0 25px 60px rgba(232,94,29,0.12)",
+                boxShadow: "0 25px 60px rgba(232,94,29,0.12)",
               }}
               transition={{ type: "spring", stiffness: 200, damping: 20 }}
             >
@@ -94,24 +72,14 @@ export function VerifyShowcase() {
               </div>
 
               <div className="flex items-center gap-4 mb-6">
-                <div
-                  className={cn(
-                    "w-13 h-13 rounded-full flex items-center justify-center",
-                    isLight ? "bg-[#E85E1D]/10" : "bg-[#E85E1D]/15"
-                  )}
-                >
-                  <User size={24} className="text-[#E85E1D]" />
+                <div className="w-13 h-13 rounded-full flex items-center justify-center bg-accent/15">
+                  <User size={24} className="text-accent" />
                 </div>
                 <div>
                   <p className="text-[15px] lg:text-[17px] font-bold leading-tight">
                     Excel Chimnonso
                   </p>
-                  <p
-                    className={cn(
-                      "text-[11px] lg:text-[12px]",
-                      isLight ? "text-[#6b4c35]" : "text-white/40"
-                    )}
-                  >
+                  <p className="text-[11px] lg:text-[12px] text-muted-foreground">
                     B.Eng Software Engineering
                   </p>
                 </div>
@@ -125,12 +93,7 @@ export function VerifyShowcase() {
                   { label: "NFT", value: "#781F21a" },
                 ].map((item) => (
                   <div key={item.label}>
-                    <p
-                      className={cn(
-                        "text-[8px] lg:text-[9px] font-semibold tracking-[1px] uppercase mb-1",
-                        isLight ? "text-[#6b4c35]/60" : "text-white/25"
-                      )}
-                    >
+                    <p className="text-[8px] lg:text-[9px] font-semibold tracking-[1px] uppercase mb-1 text-muted-foreground">
                       {item.label}
                     </p>
                     <p className="text-[12px] lg:text-[14px] font-semibold">
@@ -140,18 +103,8 @@ export function VerifyShowcase() {
                 ))}
               </div>
 
-              <div
-                className={cn(
-                  "pt-4 border-t text-center",
-                  isLight ? "border-[#9E2102]/[0.06]" : "border-white/[0.06]"
-                )}
-              >
-                <p
-                  className={cn(
-                    "text-[9px] lg:text-[10px]",
-                    isLight ? "text-[#6b4c35]/50" : "text-white/25"
-                  )}
-                >
+              <div className="pt-4 border-t border-border text-center">
+                <p className="text-[9px] lg:text-[10px] text-muted-foreground">
                   Anchored on-chain for global verification
                 </p>
               </div>
@@ -167,25 +120,18 @@ export function VerifyShowcase() {
           transition={{ duration: 0.6, delay: 0.3 }}
         >
           <h2
-            className={cn(
-              "font-[900] leading-[0.9] tracking-[-2px] lg:tracking-[-4px]",
-              isLight
-                ? "[-webkit-text-stroke:2px_rgba(26,10,0,0.12)] text-transparent"
-                : "[-webkit-text-stroke:2px_rgba(255,255,255,0.08)] text-transparent"
-            )}
-            style={{ fontSize: "clamp(40px, 10vw, 120px)" }}
+            className="font-[900] leading-[0.9] tracking-[-2px] lg:tracking-[-4px] text-transparent"
+            style={{
+              fontSize: "clamp(40px, 10vw, 120px)",
+              WebkitTextStroke: "2px color-mix(in srgb, var(--foreground) 12%, transparent)",
+            }}
           >
             A CREDENTIAL
           </h2>
         </motion.div>
 
         <motion.div
-          className={cn(
-            "w-full h-px mb-8 lg:mb-10",
-            isLight
-              ? "bg-gradient-to-r from-transparent via-[#9E2102]/15 to-transparent"
-              : "bg-gradient-to-r from-transparent via-white/10 to-transparent"
-          )}
+          className="w-full h-px mb-8 lg:mb-10 bg-gradient-to-r from-transparent via-border to-transparent"
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
           viewport={{ once: true }}
@@ -199,14 +145,7 @@ export function VerifyShowcase() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <div
-            className={cn(
-              "px-5 py-2 border text-[12px] lg:text-[14px] font-bold tracking-[3px]",
-              isLight
-                ? "border-[#1a0a00]/15 text-[#1a0a00]"
-                : "border-white/15 text-white"
-            )}
-          >
+          <div className="px-5 py-2 border border-border text-[12px] lg:text-[14px] font-bold tracking-[3px] text-foreground">
             2026
           </div>
         </motion.div>
@@ -219,14 +158,7 @@ export function VerifyShowcase() {
           transition={{ duration: 0.7, delay: 0.2 }}
         >
           <div className="flex flex-col items-center gap-3 shrink-0">
-            <div
-              className={cn(
-                "w-[72px] h-[72px] lg:w-[88px] lg:h-[88px] rounded-xl border flex items-center justify-center",
-                isLight
-                  ? "bg-[#FAF2E8] border-[#9E2102]/[0.08]"
-                  : "bg-white/[0.04] border-white/[0.08]"
-              )}
-            >
+            <div className="w-[72px] h-[72px] lg:w-[88px] lg:h-[88px] rounded-xl border border-border flex items-center justify-center bg-secondary">
               <Image
                 src="/favicon.ico"
                 alt="EduChainX"
@@ -235,18 +167,13 @@ export function VerifyShowcase() {
                 className="rounded-sm"
               />
             </div>
-            <span
-              className={cn(
-                "text-[8px] font-bold tracking-[2px] uppercase",
-                isLight ? "text-[#6b4c35]/50" : "text-white/25"
-              )}
-            >
+            <span className="text-[8px] font-bold tracking-[2px] uppercase text-muted-foreground">
               EDUCHAINX
             </span>
           </div>
 
           <div className="flex-1">
-            <p className="text-[10px] lg:text-[11px] font-semibold tracking-[2px] text-[#E85E1D] uppercase mb-3">
+            <p className="text-[10px] lg:text-[11px] font-semibold tracking-[2px] text-accent uppercase mb-3">
               FOR EMPLOYERS & INSTITUTIONS
             </p>
             <h3
@@ -255,12 +182,7 @@ export function VerifyShowcase() {
             >
               Verify a Credential
             </h3>
-            <p
-              className={cn(
-                "text-[12px] lg:text-[13px] leading-[1.8] mb-6 max-w-xl",
-                isLight ? "text-[#6b4c35]" : "text-white/40"
-              )}
-            >
+            <p className="text-[12px] lg:text-[13px] leading-[1.8] mb-6 max-w-xl text-muted-foreground">
               Confirm any EduChain certificate directly against the institutional
               registry and the Solana chain — no account, no penalties, no waiting
               and no third-party office. Paste a DID or certificate ID and get a
@@ -278,14 +200,9 @@ export function VerifyShowcase() {
                 >
                   <Shield
                     size={14}
-                    className="text-[#E85E1D] mt-0.5 shrink-0"
+                    className="text-accent mt-0.5 shrink-0"
                   />
-                  <span
-                    className={cn(
-                      "text-[11px] lg:text-[12px] leading-[1.6]",
-                      isLight ? "text-[#6b4c35]" : "text-white/40"
-                    )}
-                  >
+                  <span className="text-[11px] lg:text-[12px] leading-[1.6] text-muted-foreground">
                     {point}
                   </span>
                 </motion.li>
@@ -293,7 +210,7 @@ export function VerifyShowcase() {
             </ul>
             <button
               onClick={() => router.push("/verification")}
-              className="inline-flex items-center gap-2 bg-[#9E2102] text-white text-[12px] lg:text-[13px] font-semibold px-6 py-3 rounded-lg hover:brightness-110 transition"
+              className="inline-flex items-center gap-2 bg-primary text-primary-foreground text-[12px] lg:text-[13px] font-semibold px-6 py-3 rounded-lg hover:brightness-110 transition"
             >
               Open Verification Registry <ArrowRight size={14} />
             </button>

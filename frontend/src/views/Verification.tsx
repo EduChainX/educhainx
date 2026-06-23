@@ -89,7 +89,7 @@ export const VerificationPage = () => {
                 onChange={(e) => setQuery(e.target.value)}
               />
             </div>
-            <Button onClick={handleVerify} disabled={status === 'loading'} className="h-14 px-8 bg-primary text-white hover:bg-primary/90">
+            <Button onClick={handleVerify} disabled={status === 'loading'} className="h-14 px-8 bg-primary text-primary-foreground hover:bg-primary/90">
               {status === 'loading' ? <Loader2 className="w-5 h-5 animate-spin" /> : "Verify"}
             </Button>
           </div>

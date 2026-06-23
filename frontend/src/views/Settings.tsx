@@ -136,7 +136,7 @@ export const SettingsPage = () => {
           >
             <span
               className={cn(
-                "inline-flex h-6 w-6 rounded-full bg-white shadow transition-transform",
+                "inline-flex h-6 w-6 rounded-full bg-primary-foreground shadow transition-transform",
                 notify ? "translate-x-7" : "translate-x-1"
               )}
             />

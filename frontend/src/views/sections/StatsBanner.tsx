@@ -1,8 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useTheme } from "next-themes";
-import { cn } from "@/lib/utils";
 import {
   Coins,
   Building2,
@@ -74,38 +71,16 @@ function AnimatedCounter({
 
 /** Animated statistics banner displaying platform metrics with scroll-triggered counters. */
 export function StatsBanner() {
-  const [mounted, setMounted] = useState(false);
-  const { theme } = useTheme();
-  useEffect(() => setMounted(true), []);
-  const isLight = mounted && theme === "light";
-
   return (
-    <section
-      className={cn(
-        "relative py-12 lg:py-20 transition-colors overflow-hidden",
-        isLight ? "bg-[#FDF6EE]" : "bg-[#111111]"
-      )}
-    >
-      <div
-        className={cn(
-          "absolute top-0 left-0 right-0 h-px",
-          isLight
-            ? "bg-gradient-to-r from-transparent via-[#E85E1D]/30 to-transparent"
-            : "bg-gradient-to-r from-transparent via-[#E85E1D]/20 to-transparent"
-        )}
-      />
+    <section className="relative py-12 lg:py-20 transition-colors overflow-hidden bg-background">
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
 
-      <div
-        className={cn(
-          "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full blur-[120px] pointer-events-none",
-          isLight ? "bg-[#9E2102]/[0.03]" : "bg-[#E85E1D]/[0.04]"
-        )}
-      />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full blur-[120px] pointer-events-none bg-accent/[0.04]" />
 
       <div className="text-center mb-8 lg:mb-12 relative">
         <div className="overflow-hidden">
           <motion.p
-            className="text-[10px] lg:text-[11px] font-semibold tracking-[2px] text-[#E85E1D] uppercase mb-2"
+            className="text-[10px] lg:text-[11px] font-semibold tracking-[2px] text-accent uppercase mb-2"
             initial={{ y: "100%" }}
             whileInView={{ y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
@@ -116,10 +91,7 @@ export function StatsBanner() {
         </div>
         <div className="overflow-hidden">
           <motion.h3
-            className={cn(
-              "text-[18px] lg:text-[24px] font-[900]",
-              isLight ? "text-[#1a0a00]" : "text-white"
-            )}
+            className="text-[18px] lg:text-[24px] font-[900] text-foreground"
             style={{ letterSpacing: "-0.5px" }}
             initial={{ y: "100%" }}
             whileInView={{ y: 0 }}
@@ -148,20 +120,10 @@ export function StatsBanner() {
               }}
             >
               {idx < stats.length - 1 && (
-                <div
-                  className={cn(
-                    "absolute right-0 top-1/4 bottom-1/4 w-px hidden lg:block",
-                    isLight
-                      ? "bg-gradient-to-b from-transparent via-[#9E2102]/10 to-transparent"
-                      : "bg-gradient-to-b from-transparent via-white/[0.06] to-transparent"
-                  )}
-                />
+                <div className="absolute right-0 top-1/4 bottom-1/4 w-px hidden lg:block bg-gradient-to-b from-transparent via-foreground/10 to-transparent" />
               )}
               <motion.div
-                className={cn(
-                  "w-9 h-9 rounded-full flex items-center justify-center mb-3",
-                  isLight ? "bg-[#E85E1D]/[0.08]" : "bg-[#E85E1D]/10"
-                )}
+                className="w-9 h-9 rounded-full flex items-center justify-center mb-3 bg-accent/10"
                 initial={{ scale: 0 }}
                 whileInView={{ scale: 1 }}
                 viewport={{ once: true }}
@@ -174,18 +136,13 @@ export function StatsBanner() {
                 }}
                 whileHover={{ scale: 1.15 }}
               >
-                <Icon size={16} strokeWidth={2} className="text-[#E85E1D]" />
+                <Icon size={16} strokeWidth={2} className="text-accent" />
               </motion.div>
               <AnimatedCounter
                 value={stat.value}
-                className="text-[26px] lg:text-[32px] font-[900] leading-none mb-1.5 italic transition-colors duration-300 text-[#E85E1D] group-hover:text-[#9E2102]"
+                className="text-[26px] lg:text-[32px] font-[900] leading-none mb-1.5 italic transition-colors duration-300 text-accent group-hover:text-primary"
               />
-              <span
-                className={cn(
-                  "text-[9px] lg:text-[10px] font-semibold tracking-[1.5px] uppercase leading-tight",
-                  isLight ? "text-[#6b4c35]" : "text-white/50"
-                )}
-              >
+              <span className="text-[9px] lg:text-[10px] font-semibold tracking-[1.5px] uppercase leading-tight text-muted-foreground">
                 {stat.label}
               </span>
             </motion.div>
@@ -193,14 +150,7 @@ export function StatsBanner() {
         })}
       </div>
 
-      <div
-        className={cn(
-          "absolute bottom-0 left-0 right-0 h-px",
-          isLight
-            ? "bg-gradient-to-r from-transparent via-[#E85E1D]/30 to-transparent"
-            : "bg-gradient-to-r from-transparent via-[#E85E1D]/20 to-transparent"
-        )}
-      />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
     </section>
   );
 }
