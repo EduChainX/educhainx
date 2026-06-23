@@ -50,7 +50,7 @@ export const CertificatesPage = () => {
           {CERTS.map((cert, i) => (
             <div
               key={i}
-              className="group relative overflow-hidden rounded-lg border border-border p-5 sm:p-6 space-y-4 card-hover"
+              className="group relative flex h-full flex-col overflow-hidden rounded-lg border border-border p-5 sm:p-6 space-y-4 card-hover"
             >
               <img
                 src={`https://picsum.photos/seed/cred${i + 30}/600/400`}
@@ -68,7 +68,7 @@ export const CertificatesPage = () => {
                 <h4 className="font-bold leading-tight">{cert.title}</h4>
                 <p className="text-[12px] text-muted-foreground mt-1">{cert.org} • Issued {cert.issued}</p>
               </div>
-              <div className="relative pt-4 border-t border-border flex items-center justify-between gap-2">
+              <div className="relative mt-auto pt-4 border-t border-border flex items-center justify-between gap-2">
                 <span className="text-[10px] font-mono text-muted-foreground truncate">ID: #{cert.id}</span>
                 <Button variant="ghost" size="sm" className="h-8 text-[11px] text-primary shrink-0">
                   View On-Chain <ExternalLink size={12} className="ml-1.5" />

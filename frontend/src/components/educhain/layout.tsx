@@ -11,6 +11,7 @@ import {
   UserCircle,
   Settings,
   MessageCircle,
+  Building2,
   LogOut,
   Bell,
   Menu,
@@ -48,6 +49,7 @@ export const Sidebar = ({
     { icon: ShoppingBag, label: 'Marketplace', path: '/marketplace' },
     { icon: Award, label: 'Certificates', path: '/certificates' },
     { icon: UserCircle, label: 'My Identity', path: '/profile' },
+    { icon: Building2, label: 'Instructor', path: '/instructor' },
     { icon: MessageCircle, label: 'Chat', path: '/chat' },
     { icon: Settings, label: 'Settings', path: '/settings' },
   ];

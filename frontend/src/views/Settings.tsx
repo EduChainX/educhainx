@@ -2,11 +2,11 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Globe, Shuffle, Check, LogOut, Palette, Bell } from 'lucide-react';
+import { Globe, Check, LogOut, Palette, Bell } from 'lucide-react';
+import { toast } from 'sonner';
 import { AppLayout } from '@/components/educhain/layout';
 import { ThemeToggle } from '@/components/educhain/theme-toggle';
 import { Button } from '@/components/ui/button';
-import { useChatUsername } from '@/lib/useChatUsername';
 import { cn } from '@/lib/utils';
 
 const LANGUAGES = ['English', 'Français', 'Yorùbá', 'Hausa', 'Igbo', 'Kiswahili', 'العربية'];
@@ -37,18 +37,44 @@ const Row = ({
   </div>
 );
 
-/** Settings page: language, chat username, appearance, notifications, account. */
+/** Settings page: language, appearance, notifications, account. */
 export const SettingsPage = () => {
-  const { username, reshuffle } = useChatUsername();
   const [langOpen, setLangOpen] = React.useState(false);
   const [language, setLanguage] = React.useState('English');
-  const [notify, setNotify] = React.useState(true);
-  const [justShuffled, setJustShuffled] = React.useState(false);
+  const [notify, setNotify] = React.useState(false);
 
-  const onReshuffle = () => {
-    reshuffle();
-    setJustShuffled(true);
-    setTimeout(() => setJustShuffled(false), 1200);
+  // Reflect the browser's actual notification permission on mount.
+  React.useEffect(() => {
+    if (typeof window !== 'undefined' && 'Notification' in window) {
+      setNotify(Notification.permission === 'granted');
+    }
+  }, []);
+
+  // Request notification permission from the browser the user is currently on.
+  const onToggleNotify = async () => {
+    if (notify) {
+      // Browsers don't allow revoking permission programmatically — just mute in-app.
+      setNotify(false);
+      toast('Notifications muted. Manage the browser permission in your site settings.');
+      return;
+    }
+    if (typeof window === 'undefined' || !('Notification' in window)) {
+      toast.error('This browser does not support notifications.');
+      return;
+    }
+    if (Notification.permission === 'denied') {
+      toast.error('Notifications are blocked in this browser. Re-enable them in your site settings first.');
+      return;
+    }
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') {
+      setNotify(true);
+      new Notification('EduChainX', { body: 'Notifications are now enabled in this browser.' });
+      toast.success('Notifications enabled for this browser.');
+    } else {
+      setNotify(false);
+      toast.error('Notification permission was not granted.');
+    }
   };
 
   return (
@@ -93,28 +119,15 @@ export const SettingsPage = () => {
           </div>
         </Row>
 
-        {/* Chat username */}
-        <Row icon={Shuffle} title="Chat username" desc="Your anonymous handle for student & group chats.">
-          <div className="flex items-center gap-2">
-            <span className="px-3 py-1.5 rounded-md bg-muted border border-border font-mono text-sm">
-              {username || '—'}
-            </span>
-            <Button variant="outline" className="border-border gap-2" onClick={onReshuffle}>
-              {justShuffled ? <Check size={15} className="text-success" /> : <Shuffle size={15} />}
-              {justShuffled ? 'Done' : 'Reshuffle'}
-            </Button>
-          </div>
-        </Row>
-
         {/* Appearance */}
         <Row icon={Palette} title="Appearance" desc="Switch between light and dark mode.">
           <ThemeToggle />
         </Row>
 
         {/* Notifications */}
-        <Row icon={Bell} title="Notifications" desc="Get notified about new certificates and messages.">
+        <Row icon={Bell} title="Notifications" desc="Get notified about new certificates and messages in this browser.">
           <button
-            onClick={() => setNotify((v) => !v)}
+            onClick={onToggleNotify}
             aria-label="Toggle notifications"
             className={cn(
               "relative inline-flex h-8 w-14 items-center rounded-full border border-border transition-colors",
