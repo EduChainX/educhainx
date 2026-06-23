@@ -48,9 +48,9 @@ export const VerificationPage = () => {
     <div className="min-h-screen bg-background">
       {/* Public Navbar */}
       <nav className="border-b border-border bg-card/30 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <span className="text-xl font-bold text-gradient">EduChain <span className="text-muted-foreground font-medium text-sm ml-2">Verification Registry</span></span>
-          <div className="flex items-center gap-3">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+          <span className="text-lg sm:text-xl font-bold text-gradient truncate min-w-0">EduChain <span className="text-muted-foreground font-medium text-sm ml-2 hidden sm:inline">Verification Registry</span></span>
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <ThemeToggle />
             <Button
               variant="ghost"
@@ -71,7 +71,7 @@ export const VerificationPage = () => {
             <Database size={14} />
             Official Institutional Registry
           </div>
-          <h1 className="text-4xl font-bold">Employer Verification</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold">Employer Verification</h1>
           <p className="text-muted-foreground max-w-xl mx-auto">
             Instantly verify academic credentials using Decentralized Identifiers (DID) 
             or Certificate IDs. All records are permanently anchored on Solana.

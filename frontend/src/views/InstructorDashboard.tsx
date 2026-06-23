@@ -22,12 +22,12 @@ export const InstructorDashboard = () => {
   return (
     <AppLayout>
       <div className="space-y-8">
-        <div className="flex items-center justify-between">
-          <div className="space-y-1">
-            <h1 className="text-3xl font-bold">Instructor Console</h1>
-            <p className="text-muted-foreground">Manage your curriculum, student verification, and revenue.</p>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1 min-w-0">
+            <h1 className="text-2xl sm:text-3xl font-bold">Instructor Console</h1>
+            <p className="text-sm sm:text-base text-muted-foreground">Manage your curriculum, student verification, and revenue.</p>
           </div>
-          <Button className="bg-primary text-white hover:bg-primary/90 gap-2 h-11 px-6">
+          <Button className="bg-primary text-white hover:bg-primary/90 gap-2 h-11 px-6 shrink-0">
             <Plus size={20} /> Create New Course
           </Button>
         </div>
@@ -47,8 +47,8 @@ export const InstructorDashboard = () => {
               <Button variant="ghost" className="text-muted-foreground text-sm">View Archive</Button>
             </div>
             
-            <div className="bg-card border border-border rounded-xl overflow-hidden">
-              <table className="w-full text-left">
+            <div className="bg-card border border-border rounded-xl overflow-x-auto">
+              <table className="w-full min-w-[560px] text-left">
                 <thead>
                   <tr className="border-b border-border bg-muted/30">
                     <th className="p-4 text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Course Name</th>

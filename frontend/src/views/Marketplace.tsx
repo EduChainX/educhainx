@@ -78,16 +78,16 @@ export const Marketplace = () => {
     <AppLayout>
       <div className="space-y-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-1">
-            <h1 className="text-3xl font-bold">Course Marketplace</h1>
-            <p className="text-muted-foreground">Expand your knowledge with blockchain-verified academic content.</p>
+          <div className="space-y-1 min-w-0">
+            <h1 className="text-2xl sm:text-3xl font-bold">Course Marketplace</h1>
+            <p className="text-sm sm:text-base text-muted-foreground">Expand your knowledge with blockchain-verified academic content.</p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <Button variant="outline" className="border-border gap-2">
               <Filter size={16} /> Filters
             </Button>
             <Button variant="outline" className="border-border gap-2">
-              Sort by: Recommended <ChevronDown size={16} />
+              <span className="sm:hidden">Sort</span><span className="hidden sm:inline">Sort by: Recommended</span> <ChevronDown size={16} />
             </Button>
           </div>
         </div>

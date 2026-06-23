@@ -1,7 +1,7 @@
-import { ProfilePage } from "@/views/Profile";
+import { SettingsPage } from "@/views/Settings";
 
 export const dynamic = "force-dynamic";
 
 export default function Page() {
-  return <ProfilePage />;
+  return <SettingsPage />;
 }
