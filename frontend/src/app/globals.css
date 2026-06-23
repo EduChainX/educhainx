@@ -38,13 +38,13 @@
   --color-dark: #111111;
   --color-dark-panel: #0d0d0d;
   --color-dim: #737373;
-  --color-light-bg: #FDF6EE;
-  --color-light-surface: #FAF2E8;
-  --color-light-panel: #F5E8D8;
-  --color-light-text: #1a0a00;
-  --color-light-muted: #6b4c35;
-  --color-light-dim: #3c1400;
-  --color-light-card: #F5EDE1;
+  --color-light-bg: #ffffff;
+  --color-light-surface: #f7f7f8;
+  --color-light-panel: #eeeef0;
+  --color-light-text: #171717;
+  --color-light-muted: #57534e;
+  --color-light-dim: #3f3f46;
+  --color-light-card: #f7f7f8;
 
   /* ── Border radius ── */
   --radius: 6px;
@@ -58,25 +58,25 @@
   --font-mono: var(--font-mono-var), ui-monospace, monospace;
 }
 
-/* ── Light theme overrides ── */
+/* ── Light theme overrides — clean white surface, dark text ── */
 .light {
-  --color-background: #FDF6EE;
-  --color-foreground: #1a0a00;
-  --color-card: #F5EDE1;
-  --color-card-foreground: #1a0a00;
-  --color-popover: #F5E8D8;
-  --color-popover-foreground: #1a0a00;
+  --color-background: #ffffff;
+  --color-foreground: #171717;
+  --color-card: #ffffff;
+  --color-card-foreground: #171717;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #171717;
   --color-primary: #9E2102;
   --color-primary-foreground: #ffffff;
-  --color-secondary: #FAF2E8;
-  --color-secondary-foreground: #1a0a00;
-  --color-muted: #F5E8D8;
-  --color-muted-foreground: #6b4c35;
+  --color-secondary: #f4f4f5;
+  --color-secondary-foreground: #171717;
+  --color-muted: #f4f4f5;
+  --color-muted-foreground: #57534e;
   --color-accent: #E85E1D;
   --color-accent-foreground: #ffffff;
   --color-destructive: #dc2626;
   --color-destructive-foreground: #ffffff;
-  --color-border: #E7E0D6;
+  --color-border: #e5e5e5;
   --color-input: #ffffff;
   --color-ring: #9E2102;
   --color-success: #16a34a;
