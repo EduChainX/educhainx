@@ -7,13 +7,18 @@ import {
   BookOpen,
   Share2,
   ShieldCheck,
-  CheckCircle2
+  CheckCircle2,
+  Shuffle,
+  Check,
+  MessageCircle
 } from 'lucide-react';
+import { toast } from 'sonner';
 import { AppLayout } from '@/components/educhain/layout';
 import { DIDString, WalletAddressChip, pseudonymFromAddress } from '@/components/educhain/shared';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useWallet } from '@solana/wallet-adapter-react';
+import { useChatUsername } from '@/lib/useChatUsername';
 import { cn } from '@/lib/utils';
 
 /** User profile with DID, wallet info, credentials, owned courses, and activity timeline. */
@@ -21,6 +26,24 @@ export const ProfilePage = () => {
   const { publicKey } = useWallet();
   const address = publicKey?.toBase58() ?? '8xJ4n9P2q1mZexampleaddr9a2z';
   const handle = `${pseudonymFromAddress(address)}.sol`;
+
+  const { username, previousUsername, canReshuffle, nextEligible, reshuffle } = useChatUsername();
+  const [justShuffled, setJustShuffled] = React.useState(false);
+
+  const onReshuffle = () => {
+    const result = reshuffle();
+    if (!result.ok) {
+      toast.error(
+        `You can only reshuffle once every 3 months. Try again on ${result.nextEligible.toLocaleDateString()}.`
+      );
+      return;
+    }
+    setJustShuffled(true);
+    setTimeout(() => setJustShuffled(false), 1200);
+    toast.success(
+      `You're now ${result.username}. In chat, others will see "${result.username} previously ${result.previous}".`
+    );
+  };
 
   return (
     <AppLayout>
@@ -120,6 +143,43 @@ export const ProfilePage = () => {
                     </div>
                   ))}
                 </div>
+              </div>
+
+              <div className="bg-card border border-border rounded-lg p-5 sm:p-6 space-y-4">
+                <div className="flex items-center gap-2">
+                  <MessageCircle className="text-primary shrink-0" size={20} />
+                  <h3 className="font-bold">Chat Username</h3>
+                </div>
+                <p className="text-[12px] text-muted-foreground">
+                  Your anonymous handle for student & group chats.{' '}
+                  {canReshuffle
+                    ? 'You can reshuffle it once every 3 months.'
+                    : `Next reshuffle available on ${nextEligible?.toLocaleDateString()}.`}
+                </p>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                  <span className="px-3 py-1.5 rounded-md bg-muted border border-border font-mono text-sm">
+                    {username || '—'}
+                  </span>
+                  <Button
+                    variant="outline"
+                    className="border-border gap-2 sm:w-auto w-full"
+                    onClick={onReshuffle}
+                    disabled={!canReshuffle}
+                    title={
+                      canReshuffle
+                        ? 'Reshuffle your handle'
+                        : `Available again on ${nextEligible?.toLocaleDateString()}`
+                    }
+                  >
+                    {justShuffled ? <Check size={15} className="text-success" /> : <Shuffle size={15} />}
+                    {justShuffled ? 'Done' : 'Reshuffle'}
+                  </Button>
+                </div>
+                {previousUsername && (
+                  <p className="text-[11px] font-mono text-muted-foreground/80">
+                    Others see: {username} previously {previousUsername}
+                  </p>
+                )}
               </div>
 
               <div className="bg-card border border-border rounded-lg p-5 sm:p-6 space-y-3">

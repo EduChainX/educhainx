@@ -82,7 +82,7 @@ const avatar = (seed: string) => `https://api.dicebear.com/7.x/identicon/svg?see
 
 /** Student chat: direct messages and group chats. */
 export const ChatPage = () => {
-  const { username } = useChatUsername();
+  const { username, previousUsername } = useChatUsername();
   const [mode, setMode] = React.useState<'direct' | 'group'>('direct');
   const [activeId, setActiveId] = React.useState(DIRECTS[0].id);
   const [threads, setThreads] = React.useState<Record<string, Message[]>>(
@@ -132,7 +132,11 @@ export const ChatPage = () => {
           <Users className="text-primary shrink-0" size={24} /> Student Chat
         </h1>
         <p className="text-sm text-muted-foreground">
-          Chatting as <span className="font-mono text-foreground">{username || '…'}</span> — direct messages and group chats with verified students.
+          Chatting as <span className="font-mono text-foreground">{username || '…'}</span>
+          {previousUsername && (
+            <span className="font-mono text-muted-foreground/80"> previously {previousUsername}</span>
+          )}
+          {' '}— direct messages and group chats with verified students.
         </p>
       </div>
 

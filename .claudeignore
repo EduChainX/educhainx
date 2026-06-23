@@ -1,0 +1,9 @@
+# .claudeignore
+.env
+.env.local
+.env.example
+frontend/.env
+frontend/.env.local
+frontend/.env.example
+**/.env
+**/.env.local
