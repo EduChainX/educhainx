@@ -7,6 +7,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import React from "react";
+import { useSidebar } from "./sidebar-context";
 
 const communityLinks = [
   { label: "Twitter / X", href: "https://x.com" },
@@ -44,12 +45,16 @@ export function SiteFooter() {
   React.useEffect(() => setMounted(true), []);
   const isLight = mounted && theme === "light";
   const [email, setEmail] = React.useState("");
+  const { hasSidebar, collapsed } = useSidebar();
 
   return (
     <footer
       className={cn(
-        "relative overflow-hidden",
-        isLight ? "bg-[#1a0a00]" : "bg-[#0a0a0a]"
+        "relative overflow-hidden transition-[margin] duration-300",
+        isLight ? "bg-[#1a0a00]" : "bg-[#0a0a0a]",
+        // When a sidebar is present: minimized rail tucks beside the footer
+        // (reserve its 76px width); expanded rail (z-40) overlays the footer instead.
+        hasSidebar && (collapsed ? "lg:ml-[76px]" : "lg:ml-0")
       )}
     >
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#E85E1D]/40 to-transparent" />

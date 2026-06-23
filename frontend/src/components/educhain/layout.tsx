@@ -24,6 +24,7 @@ import { Button } from '@/components/ui/button';
 import { WalletAddressChip, VerifiedStudentBadge } from './shared';
 import { ThemeToggle } from './theme-toggle';
 import { AiChatWidget } from './ai-chat-widget';
+import { useSidebar } from './sidebar-context';
 
 /**
  * App sidebar. On large screens it is always visible and can be minimized to an
@@ -57,9 +58,10 @@ export const Sidebar = ({
   return (
     <aside
       className={cn(
-        // Mobile: fixed off-canvas drawer. Large: in-flow sticky rail so it sits
-        // beside the content and scrolls away before the footer (no overlap).
-        "fixed lg:sticky top-0 left-0 z-40 lg:z-auto h-screen shrink-0 bg-card border-r border-border flex flex-col transition-all duration-300",
+        // Always fixed & full-height. On large screens it is pinned over the page
+        // (z-40) so that when expanded it overlays the footer, and when minimized
+        // the footer tucks beside the narrow rail (see footer margin logic).
+        "fixed top-0 left-0 z-40 h-screen shrink-0 bg-card border-r border-border flex flex-col transition-all duration-300",
         "w-[240px]",                                  // mobile drawer width
         collapsed ? "lg:w-[76px]" : "lg:w-[240px]",   // large-screen minimize
         open ? "translate-x-0" : "-translate-x-full", // mobile slide in/out
@@ -142,10 +144,16 @@ export const Sidebar = ({
 /** Standard app layout with a minimizable sidebar and top header bar. */
 export const AppLayout = ({ children }: { children: React.ReactNode }) => {
   const [open, setOpen] = React.useState(false);
-  const [collapsed, setCollapsed] = React.useState(false);
+  const { collapsed, setCollapsed, setHasSidebar } = useSidebar();
+
+  // Tell the global footer a sidebar is present so it can reserve rail space.
+  React.useEffect(() => {
+    setHasSidebar(true);
+    return () => setHasSidebar(false);
+  }, [setHasSidebar]);
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans lg:flex">
+    <div className="min-h-screen bg-background text-foreground font-sans">
       <Sidebar open={open} setOpen={setOpen} collapsed={collapsed} setCollapsed={setCollapsed} />
 
       {/* Backdrop — mobile drawer only. */}
@@ -157,8 +165,13 @@ export const AppLayout = ({ children }: { children: React.ReactNode }) => {
         />
       )}
 
-      {/* Content column — flows beside the sticky sidebar on large screens. */}
-      <div className="flex-1 min-w-0">
+      {/* Content column — offset by the fixed rail's width on large screens. */}
+      <div
+        className={cn(
+          "min-w-0 transition-[margin] duration-300",
+          collapsed ? "lg:ml-[76px]" : "lg:ml-[240px]"
+        )}
+      >
         <header className="h-16 border-b border-border flex items-center justify-between px-4 sm:px-8 bg-background/80 backdrop-blur-sm sticky top-0 z-20">
           <div className="flex items-center gap-3 min-w-0">
             {/* Hamburger — small screens only. */}

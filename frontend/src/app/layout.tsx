@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import { WalletProviders } from "@/components/WalletProviders";
 import { ClientShell } from "@/components/educhain/client-shell";
+import { SidebarProvider } from "@/components/educhain/sidebar-context";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -42,7 +43,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="pb-20 lg:pb-0">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <WalletProviders>
-            <ClientShell>{children}</ClientShell>
+            <SidebarProvider>
+              <ClientShell>{children}</ClientShell>
+            </SidebarProvider>
           </WalletProviders>
           <Toaster position="top-center" />
         </ThemeProvider>
