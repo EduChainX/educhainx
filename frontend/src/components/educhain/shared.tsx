@@ -98,6 +98,14 @@ export function pseudonymFromAddress(address: string): string {
   return `${adj}${animal}${num}`;
 }
 
+/** A fresh random pseudonym, used when the user reshuffles their chat handle. */
+export function randomPseudonym(): string {
+  const adj = ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)];
+  const animal = ANIMALS[Math.floor(Math.random() * ANIMALS.length)];
+  const num = Math.floor(Math.random() * 900) + 100;
+  return `${adj}${animal}${num}`;
+}
+
 /** NFT or SFT type indicator pill. */
 export const NFTTypePill = ({ type }: { type: 'NFT' | 'SFT' }) => (
   <span className={cn(

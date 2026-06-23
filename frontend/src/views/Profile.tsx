@@ -3,18 +3,14 @@
 import React from 'react';
 import {
   Cpu,
-  Wallet, 
-  Award, 
-  BookOpen, 
-  TrendingUp, 
-  Share2, 
-  Settings,
+  Award,
+  BookOpen,
+  Share2,
   ShieldCheck,
-  CheckCircle2,
-  ExternalLink
+  CheckCircle2
 } from 'lucide-react';
 import { AppLayout } from '@/components/educhain/layout';
-import { DIDString, WalletAddressChip, VerifiedStudentBadge, pseudonymFromAddress } from '@/components/educhain/shared';
+import { DIDString, WalletAddressChip, pseudonymFromAddress } from '@/components/educhain/shared';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useWallet } from '@solana/wallet-adapter-react';
@@ -86,43 +82,58 @@ export const ProfilePage = () => {
 
         {/* Content Tabs */}
         <div className="lg:col-span-2">
-          <Tabs defaultValue="credentials" className="space-y-6">
-            <TabsList className="bg-card border border-border p-1 h-12">
-              <TabsTrigger value="credentials" className="px-8 data-[state=active]:bg-muted">Credentials</TabsTrigger>
-              <TabsTrigger value="courses" className="px-8 data-[state=active]:bg-muted">Owned Courses</TabsTrigger>
-              <TabsTrigger value="activity" className="px-8 data-[state=active]:bg-muted">Activity</TabsTrigger>
+          <Tabs defaultValue="identity" className="space-y-6">
+            <TabsList className="w-full bg-card border border-border p-1 h-12">
+              <TabsTrigger value="identity" className="flex-1 px-2 sm:px-8 text-xs sm:text-sm data-[state=active]:bg-muted">Identity</TabsTrigger>
+              <TabsTrigger value="courses" className="flex-1 px-2 sm:px-8 text-xs sm:text-sm data-[state=active]:bg-muted">Owned Courses</TabsTrigger>
+              <TabsTrigger value="activity" className="flex-1 px-2 sm:px-8 text-xs sm:text-sm data-[state=active]:bg-muted">Activity</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="credentials" className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {[1, 2, 3, 4].map((_, i) => (
-                  <div
-                    key={i}
-                    className="group relative overflow-hidden rounded-lg border border-border p-6 space-y-4 card-hover"
-                  >
-                    {/* course image background + contrast overlay (darkens on hover) */}
-                    <img
-                      src={`https://picsum.photos/seed/cred${i + 30}/600/400`}
-                      alt=""
-                      className="absolute inset-0 h-full w-full object-cover opacity-25 transition-all duration-300 group-hover:opacity-40 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/90 to-card/60 transition-colors duration-300 group-hover:from-card group-hover:via-card/80" />
-                    <div className="relative flex items-start justify-between">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-md bg-primary/15 text-primary backdrop-blur-sm">
-                        <Award size={24} />
-                      </div>
-                      <VerifiedStudentBadge />
+            <TabsContent value="identity" className="space-y-4">
+              <div className="bg-card border border-border rounded-lg p-5 sm:p-6 space-y-5">
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="text-success shrink-0" size={20} />
+                  <h3 className="font-bold">Decentralized Identity</h3>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="flex flex-col gap-2">
+                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">DID</span>
+                    <DIDString did="8f2a1b9c3d4e5f6g7h8i9j" />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Wallet</span>
+                    <WalletAddressChip address={address} />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-border">
+                  {[
+                    { label: 'Institution', value: 'University of Lagos' },
+                    { label: 'Program', value: 'Computer Engineering' },
+                    { label: 'Anchor Network', value: 'Solana Mainnet' },
+                    { label: 'Status', value: 'Active' },
+                  ].map((d) => (
+                    <div key={d.label} className="space-y-1 min-w-0">
+                      <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">{d.label}</span>
+                      <p className="text-sm font-medium truncate">{d.value}</p>
                     </div>
-                    <div className="relative">
-                      <h4 className="font-bold leading-tight">Advanced Distributed Systems</h4>
-                      <p className="text-[12px] text-muted-foreground mt-1">University of Lagos • Issued Dec 2023</p>
-                    </div>
-                    <div className="relative pt-4 border-t border-border flex items-center justify-between">
-                      <span className="text-[10px] font-mono text-muted-foreground">ID: #8291...F21A</span>
-                      <Button variant="ghost" size="sm" className="h-8 text-[11px] text-primary">
-                        View On-Chain <ExternalLink size={12} className="ml-1.5" />
-                      </Button>
-                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-card border border-border rounded-lg p-5 sm:p-6 space-y-3">
+                <h4 className="font-bold text-sm">Verification Checks</h4>
+                {[
+                  { label: 'Registry Match', status: 'Verified', color: 'text-success', icon: CheckCircle2 },
+                  { label: 'DID Anchored', status: 'On Solana', color: 'text-primary', icon: Cpu },
+                  { label: 'Biometric Link', status: 'Pending', color: 'text-warning', icon: ShieldCheck },
+                ].map((item) => (
+                  <div key={item.label} className="flex items-center justify-between gap-2 text-sm">
+                    <span className="flex items-center gap-2 text-muted-foreground min-w-0">
+                      <item.icon size={15} className={cn("shrink-0", item.color)} /> <span className="truncate">{item.label}</span>
+                    </span>
+                    <span className={cn("font-medium shrink-0", item.color)}>{item.status}</span>
                   </div>
                 ))}
               </div>

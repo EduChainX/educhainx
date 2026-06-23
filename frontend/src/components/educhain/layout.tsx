@@ -41,7 +41,7 @@ export const Sidebar = ({
   setCollapsed: (v: boolean) => void;
 }) => {
   const pathname = usePathname();
-  const { publicKey, disconnect, connected } = useWallet();
+  const { publicKey, connected } = useWallet();
 
   const navItems = [
     { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
@@ -120,16 +120,17 @@ export const Sidebar = ({
           </div>
         )}
         <Button
+          asChild
           variant="ghost"
-          onClick={() => { if (connected) void disconnect(); }}
-          disabled={!connected}
           className={cn(
             "w-full text-muted-foreground hover:text-error hover:bg-error/10 gap-3 px-3",
             collapsed ? "lg:justify-center justify-start" : "justify-start"
           )}
         >
-          <LogOut size={20} />
-          <span className={cn(collapsed && "lg:hidden")}>Disconnect</span>
+          <Link href="/logout" onClick={() => setOpen(false)} title="Disconnect">
+            <LogOut size={20} />
+            <span className={cn(collapsed && "lg:hidden")}>Disconnect</span>
+          </Link>
         </Button>
       </div>
     </aside>
