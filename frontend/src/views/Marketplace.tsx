@@ -197,7 +197,7 @@ export const Marketplace = () => {
                     <Button
                       size="sm"
                       onClick={() => toast.info('On-chain enrollment is coming soon.')}
-                      className="bg-primary text-white hover:bg-primary/90"
+                      className="bg-primary text-primary-foreground hover:bg-primary/90"
                     >
                       Enroll <ShoppingCart className="ml-2 w-4 h-4" />
                     </Button>

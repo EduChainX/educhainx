@@ -61,17 +61,13 @@ function ThemeToggleSwitch({
       onClick={onToggle}
       className={cn(
         "relative w-[36px] h-[36px] rounded-full border flex items-center px-[3px] transition-colors",
-        isLight
-          ? "bg-light-surface border-brand-primary/15"
-          : "bg-[#1a1a1a] border-white/[0.08]"
+        "bg-secondary border-border"
       )}
     >
       <span
         className={cn(
           "absolute flex items-center justify-center",
-          isLight
-            ? "left-[4px] text-brand-primary"
-            : "right-[3px] text-brand-accent"
+          isLight ? "left-[4px] text-primary" : "right-[3px] text-accent"
         )}
       >
         {isLight ? <Sun size={24} strokeWidth={2.5} /> : <Moon size={24} strokeWidth={2.5} />}
@@ -120,7 +116,7 @@ export const LandingPage = () => {
     <main
       className={cn(
         "font-sans transition-colors duration-300",
-        isLight ? "bg-light-bg text-light-text" : "bg-dark text-white"
+        "bg-background text-foreground"
       )}
     >
       <NavBar />
@@ -129,9 +125,7 @@ export const LandingPage = () => {
       <div
         className={cn(
           "fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-4 py-3.5 border-b lg:hidden",
-          isLight
-            ? "bg-light-bg border-brand-primary/10"
-            : "bg-dark border-white/[0.08]"
+          "bg-background border-border"
         )}
       >
         {/* Small screens: show the logo mark only (no wordmark). */}
@@ -147,9 +141,7 @@ export const LandingPage = () => {
         <aside
           className={cn(
             "relative hidden lg:flex flex-col items-center overflow-hidden justify-around w-[100px] border-r px-6 transition-colors duration-300",
-            isLight
-              ? "bg-[#1a0a00] border-white/[0.08]"
-              : "bg-dark border-white/[0.08]"
+            "bg-background border-border"
           )}
         >
           <div className="flex flex-col items-center gap-3 mt-4">
@@ -159,15 +151,13 @@ export const LandingPage = () => {
                 onClick={() => setCurrent(i)}
                 className={cn(
                   "text-[11px] font-semibold transition-colors",
-                  i === current
-                    ? "text-brand-accent"
-                    : "text-white/25"
+                  i === current ? "text-accent" : "text-muted-foreground"
                 )}
               >
                 {String(i + 1).padStart(2, "0")}
               </button>
             ))}
-            <div className="absolute rotate-90 text-9xl font-bold bottom-20 text-brand-accent/[0.06]">
+            <div className="absolute rotate-90 text-9xl font-bold bottom-20 text-accent/[0.06]">
               EDX
             </div>
           </div>
@@ -178,9 +168,7 @@ export const LandingPage = () => {
                 key={i}
                 className={cn(
                   "w-[3px] h-10 rounded-full transition-colors",
-                  i === current
-                    ? "bg-brand-accent"
-                    : "bg-white/15"
+                  i === current ? "bg-accent" : "bg-muted-foreground/40"
                 )}
               />
             ))}
@@ -193,15 +181,13 @@ export const LandingPage = () => {
           <div className="hidden lg:flex items-center justify-between py-3 pr-6">
             <span className="flex items-center gap-3 text-4xl font-bold tracking-wide">
               <Image src="/favicon.ico" alt="EduChainX" width={36} height={36} className="rounded-sm" />
-              Edu<span className="text-brand-accent">ChainX</span>
+              Edu<span className="text-accent">ChainX</span>
             </span>
             <button
               onClick={toggleTheme}
               className={cn(
                 "p-2 rounded-lg transition-colors",
-                isLight
-                  ? "text-brand-primary hover:bg-brand-primary/10"
-                  : "text-brand-accent hover:bg-white/10"
+                "text-accent hover:bg-accent/10"
               )}
             >
               {isLight ? <Moon size={20} /> : <Sun size={20} />}
@@ -226,20 +212,15 @@ export const LandingPage = () => {
               <div
                 className={cn(
                   "absolute inset-0 z-[1]",
-                  `${!isLight && "bg-gradient-to-b from-transparent via-dark/60 to-dark"}`
+                  "bg-gradient-to-b from-transparent via-background/60 to-background"
                 )}
               />
             </div>
             <section className="relative z-20">
-              <p className="text-[12px] font-semibold tracking-[1.5px] text-brand-accent uppercase mb-1">
+              <p className="text-[12px] font-semibold tracking-[1.5px] text-accent uppercase mb-1">
                 {slide.label}
               </p>
-              <p
-                className={cn(
-                  "text-[13px] mb-4",
-                  isLight ? "text-light-text/60" : "text-white/55"
-                )}
-              >
+              <p className="text-[13px] mb-4 text-muted-foreground">
                 {slide.subtitle}
               </p>
 
@@ -254,14 +235,14 @@ export const LandingPage = () => {
                 >
                   {slide.headingTop}
                   <br />
-                  <span className="text-brand-accent">{slide.headingAccent}</span>
+                  <span className="text-accent">{slide.headingAccent}</span>
                 </motion.h1>
               </div>
 
               <p
                 className={cn(
                   "text-[14px] leading-[1.8] mb-5 p-4",
-                  isLight ? "text-light-text bg-light-bg/70 backdrop-blur-sm" : "text-white/65"
+                  "text-foreground bg-background/70 backdrop-blur-sm"
                 )}
               >
                 {slide.description}
@@ -270,7 +251,7 @@ export const LandingPage = () => {
               <div className="flex flex-col gap-2.5 mb-5">
                 <button
                   onClick={() => router.push("/onboarding")}
-                  className="flex items-center justify-center gap-2 bg-brand-primary text-white text-[14px] font-semibold py-3.5 rounded-lg hover:brightness-110 transition"
+                  className="flex items-center justify-center gap-2 bg-primary text-primary-foreground text-[14px] font-semibold py-3.5 rounded-lg hover:brightness-110 transition"
                 >
                   Start Onboarding
                   <ArrowRight size={15} />
@@ -279,9 +260,7 @@ export const LandingPage = () => {
                   onClick={() => router.push("/marketplace")}
                   className={cn(
                     "flex items-center justify-center text-[14px] font-medium py-3.5 rounded-lg border transition",
-                    isLight
-                      ? "border-brand-primary/15 text-white bg-brand-primary"
-                      : "border-white/15 text-white/60 hover:text-white hover:bg-brand-primary"
+                    "border-border text-muted-foreground hover:text-primary-foreground hover:bg-primary"
                   )}
                 >
                   Explore Courses
@@ -296,11 +275,8 @@ export const LandingPage = () => {
                     className={cn(
                       "h-[6px] rounded-full transition-all",
                       i === current
-                        ? "w-5 bg-brand-accent"
-                        : cn(
-                          "w-[6px]",
-                          isLight ? "bg-brand-primary/20" : "bg-white/25"
-                        )
+                        ? "w-5 bg-accent"
+                        : "w-[6px] bg-muted-foreground/40"
                     )}
                   />
                 ))}
@@ -340,28 +316,20 @@ export const LandingPage = () => {
               <section
                 className={cn(
                   "flex gap-2 flex-col relative z-10 rounded-2xl px-5 py-4",
-                  isLight && "bg-light-bg/70 backdrop-blur-sm"
+                  "bg-background/70 backdrop-blur-sm"
                 )}
               >
                 <div className="flex items-center gap-4 mb-2">
                   <span
-                    className={cn(
-                      "text-[14px] font-medium",
-                      isLight ? "text-light-text/70" : "text-white/55"
-                    )}
+                    className="text-[14px] font-medium text-muted-foreground"
                   >
                     {slide.counter}
                   </span>
                 </div>
-                <p className="text-[13px] font-semibold tracking-[0.15em] text-brand-accent uppercase mb-2">
+                <p className="text-[13px] font-semibold tracking-[0.15em] text-accent uppercase mb-2">
                   {slide.label}
                 </p>
-                <p
-                  className={cn(
-                    "text-[14px] mb-3",
-                    isLight ? "text-light-text/70" : "text-white/55"
-                  )}
-                >
+                <p className="text-[14px] mb-3 text-muted-foreground">
                   {slide.subtitle}
                 </p>
               </section>
@@ -369,14 +337,14 @@ export const LandingPage = () => {
               <section
                 className={cn(
                   "flex gap-3 flex-col relative z-10 self-end rounded-2xl px-5 py-4",
-                  isLight && "bg-light-bg/70 backdrop-blur-sm"
+                  "bg-background/70 backdrop-blur-sm"
                 )}
               >
                 <div className="overflow-hidden">
                   <motion.h1
                     className={cn(
                       "font-[900] leading-[1.05] mb-5",
-                      isLight && "text-light-text"
+                      "text-foreground"
                     )}
                     style={{
                       fontSize: "clamp(36px, 5vw, 58px)",
@@ -389,16 +357,13 @@ export const LandingPage = () => {
                   >
                     {slide.headingTop}
                     <br />
-                    <span className="text-brand-accent">
+                    <span className="text-accent">
                       {slide.headingAccent}
                     </span>
                   </motion.h1>
                 </div>
                 <p
-                  className={cn(
-                    "text-[15px] leading-[1.7] max-w-[420px] mb-7",
-                    isLight ? "text-light-text/80" : "text-white/60"
-                  )}
+                  className="text-[15px] leading-[1.7] max-w-[420px] mb-7 text-muted-foreground"
                 >
                   {slide.description}
                 </p>
@@ -417,9 +382,7 @@ export const LandingPage = () => {
               onClick={() => router.push("/onboarding")}
               className={cn(
                 "inline-flex items-center gap-2 text-[14px] font-semibold px-6 py-3 rounded-lg hover:brightness-110 transition",
-                isLight
-                  ? "bg-brand-primary text-white"
-                  : "bg-brand-accent/50 text-white"
+                "bg-primary text-primary-foreground"
               )}
             >
               Start Onboarding
@@ -429,9 +392,7 @@ export const LandingPage = () => {
               onClick={() => router.push("/marketplace")}
               className={cn(
                 "inline-flex items-center gap-2 text-[14px] font-semibold px-6 py-3 rounded-lg transition",
-                isLight
-                  ? "border border-brand-primary/20 text-brand-primary hover:bg-brand-primary/5"
-                  : "border border-white/20 text-white hover:bg-white/5"
+                "border border-border text-foreground hover:bg-secondary"
               )}
             >
               Explore Courses
@@ -442,41 +403,39 @@ export const LandingPage = () => {
           <div
             className={cn(
               "w-full lg:w-fit lg:self-end relative z-10 grid grid-cols-1 sm:grid-cols-2 border-t transition-colors duration-300",
-              isLight
-                ? "bg-[#1a0a00] border-white/[0.08] text-white"
-                : "bg-dark-panel border-white/[0.08]"
+              "bg-card border-border text-card-foreground"
             )}
           >
-            <div className="px-4 sm:px-6 lg:px-7 py-3.5 lg:py-5 border-b sm:border-b-0 sm:border-r border-white/[0.08]">
+            <div className="px-4 sm:px-6 lg:px-7 py-3.5 lg:py-5 border-b sm:border-b-0 sm:border-r border-border">
               <div className="flex items-center gap-2 mb-1.5 lg:mb-2">
-                <span className="text-[10px] lg:text-[11px] font-semibold tracking-[1.5px] uppercase text-white/35">
+                <span className="text-[10px] lg:text-[11px] font-semibold tracking-[1.5px] uppercase text-muted-foreground">
                   Upcoming
                 </span>
-                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase bg-brand-accent/15 text-brand-accent">
+                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase bg-accent/15 text-accent">
                   Soon
                 </span>
               </div>
               <p className="text-[13px] lg:text-[15px] font-semibold mb-0.5 lg:mb-1">
                 Verification Summit
               </p>
-              <p className="text-[11px] lg:text-[13px] text-white/55">
+              <p className="text-[11px] lg:text-[13px] text-muted-foreground">
                 Lagos — August 2026
               </p>
             </div>
 
             <div className="px-4 sm:px-6 lg:px-7 py-3.5 lg:py-5">
-              <span className="text-[10px] lg:text-[11px] font-semibold tracking-[1.5px] uppercase block mb-1.5 lg:mb-2 text-white/35">
+              <span className="text-[10px] lg:text-[11px] font-semibold tracking-[1.5px] uppercase block mb-1.5 lg:mb-2 text-muted-foreground">
                 News
               </span>
               <p className="text-[13px] lg:text-[15px] font-semibold mb-0.5 lg:mb-1">
                 Partnership with 5 new universities
               </p>
-              <p className="text-[11px] lg:text-[13px] mb-1.5 lg:mb-2 text-white/55">
+              <p className="text-[11px] lg:text-[13px] mb-1.5 lg:mb-2 text-muted-foreground">
                 Expanding our network across West Africa
               </p>
               <a
                 href="#"
-                className="text-[12px] lg:text-[13px] font-semibold text-brand-accent hover:underline"
+                className="text-[12px] lg:text-[13px] font-semibold text-accent hover:underline"
               >
                 Read More
               </a>
@@ -488,9 +447,7 @@ export const LandingPage = () => {
         <aside
           className={cn(
             "hidden lg:flex flex-col items-center justify-center w-[100px] border-l shrink-0 gap-6 transition-colors duration-300 relative z-10",
-            isLight
-              ? "bg-[#1a0a00] border-white/[0.08]"
-              : "bg-dark border-white/[0.08]"
+            "bg-background border-border"
           )}
         >
           {[
@@ -502,7 +459,7 @@ export const LandingPage = () => {
             <a
               key={i}
               href="#"
-              className="transition-colors text-white/25 hover:text-white/60"
+              className="transition-colors text-muted-foreground hover:text-foreground"
             >
               <svg
                 width="14"
@@ -522,7 +479,7 @@ export const LandingPage = () => {
       <div
         className={cn(
           "w-full h-[60px] lg:h-[80px]",
-          isLight ? "bg-light-bg" : "bg-dark"
+          "bg-background"
         )}
       >
         <svg
@@ -533,9 +490,9 @@ export const LandingPage = () => {
           <defs>
             <linearGradient id="horizon-grad" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stopColor="#9E2102" stopOpacity="0" />
-              <stop offset="20%" stopColor="#9E2102" stopOpacity={isLight ? "0.15" : "0.25"} />
-              <stop offset="50%" stopColor="#E85E1D" stopOpacity={isLight ? "0.3" : "0.45"} />
-              <stop offset="80%" stopColor="#9E2102" stopOpacity={isLight ? "0.15" : "0.25"} />
+              <stop offset="20%" stopColor="#9E2102" stopOpacity="0.25" />
+              <stop offset="50%" stopColor="#E85E1D" stopOpacity="0.45" />
+              <stop offset="80%" stopColor="#9E2102" stopOpacity="0.25" />
               <stop offset="100%" stopColor="#9E2102" stopOpacity="0" />
             </linearGradient>
           </defs>
@@ -572,7 +529,7 @@ export const LandingPage = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.8 }}
             transition={{ duration: 0.25 }}
-            className="fixed right-4 sm:right-6 bottom-24 lg:bottom-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-brand-primary text-white shadow-lg shadow-brand-primary/30 hover:bg-brand-accent hover:scale-105 transition-colors"
+            className="fixed right-4 sm:right-6 bottom-24 lg:bottom-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/30 hover:bg-accent hover:scale-105 transition-colors"
           >
             <ArrowUp size={22} />
           </motion.button>

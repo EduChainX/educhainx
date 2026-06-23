@@ -32,7 +32,7 @@ export const LearnerDashboard = () => {
             <p className="text-sm sm:text-base text-muted-foreground">You've completed 65% of your current semester goals. Keep it up!</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 relative z-10 shrink-0">
-            <Button className="bg-primary text-white hover:bg-primary/90">Resume Learning</Button>
+            <Button className="bg-primary text-primary-foreground hover:bg-primary/90">Resume Learning</Button>
             <Button variant="outline" className="border-border">View Certificates</Button>
           </div>
         </div>
@@ -118,7 +118,7 @@ export const LearnerDashboard = () => {
               <p className="text-[12px] text-muted-foreground leading-relaxed">
                 Get unlimited access to advanced Solana workshops and priority NFT minting rights.
               </p>
-              <Button className="w-full bg-accent text-white hover:bg-accent/90 text-[12px] h-9">
+              <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 text-[12px] h-9">
                 Learn More
               </Button>
             </div>
