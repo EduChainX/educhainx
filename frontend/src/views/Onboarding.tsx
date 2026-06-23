@@ -145,7 +145,7 @@ export const OnboardingFlow = () => {
             <div key={step.id} className="relative z-10 flex flex-col items-center">
               <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-colors duration-300 ${
                 currentStep === step.id
-                  ? "bg-primary border-primary text-white"
+                  ? "bg-primary border-primary text-primary-foreground"
                   : currentStep > step.id
                     ? "bg-success border-success text-white"
                     : "bg-card border-border text-muted-foreground"
@@ -326,7 +326,7 @@ export const OnboardingFlow = () => {
                       role === 'learner' ? "bg-primary/10 border-primary shadow-[0_0_20px_color-mix(in_srgb,var(--color-primary)_15%,transparent)]" : "bg-card border-border hover:border-primary/30"
                     )}
                   >
-                    <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", role === 'learner' ? "bg-primary text-white" : "bg-muted text-muted-foreground")}>
+                    <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", role === 'learner' ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground")}>
                       <BookOpen size={24} />
                     </div>
                     <div>
@@ -341,7 +341,7 @@ export const OnboardingFlow = () => {
                       role === 'instructor' ? "bg-accent/10 border-accent shadow-[0_0_20px_color-mix(in_srgb,var(--color-accent)_15%,transparent)]" : "bg-card border-border hover:border-accent/30"
                     )}
                   >
-                    <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", role === 'instructor' ? "bg-accent text-white" : "bg-muted text-muted-foreground")}>
+                    <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", role === 'instructor' ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground")}>
                       <UserCircle size={24} />
                     </div>
                     <div>
@@ -370,7 +370,7 @@ export const OnboardingFlow = () => {
             <Button
               onClick={handleNext}
               disabled={nextDisabled}
-              className="bg-primary text-white hover:bg-primary/90 px-8"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 px-8"
             >
               {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
               {nextLabel} <ChevronRight className="ml-2 w-4 h-4" />

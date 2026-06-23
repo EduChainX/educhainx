@@ -1,7 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { ShieldCheck, Radio, Award, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
@@ -35,18 +33,10 @@ const steps = [
 
 /** Three-step process section: matric verification, DID minting, and on-chain certificate earning. */
 export function HowItWorks() {
-  const [mounted, setMounted] = useState(false);
-  const { theme } = useTheme();
-  useEffect(() => setMounted(true), []);
-  const isLight = mounted && theme === "light";
-
   return (
     <section
       id="how-it-works"
-      className={cn(
-        "relative scroll-mt-20 px-5 lg:px-20 py-14 lg:py-28 transition-colors",
-        isLight ? "bg-[#1a0a00] text-white" : "bg-[#0d0d0d]"
-      )}
+      className="relative scroll-mt-20 px-5 lg:px-20 py-14 lg:py-28 transition-colors bg-card text-foreground"
     >
       <div
         className="absolute inset-0 pointer-events-none opacity-20"
@@ -59,7 +49,7 @@ export function HowItWorks() {
       <div className="relative text-center mb-12 lg:mb-20 max-w-3xl mx-auto">
         <div className="overflow-hidden">
           <motion.p
-            className="text-[10px] lg:text-[11px] font-semibold tracking-[2px] text-[#E85E1D] uppercase mb-3"
+            className="text-[10px] lg:text-[11px] font-semibold tracking-[2px] text-accent uppercase mb-3"
             initial={{ y: "100%" }}
             whileInView={{ y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
@@ -70,7 +60,7 @@ export function HowItWorks() {
         </div>
         <div className="overflow-hidden">
           <motion.h2
-            className="text-[24px] lg:text-[40px] font-[900] leading-[1.1] mb-4 text-white"
+            className="text-[24px] lg:text-[40px] font-[900] leading-[1.1] mb-4 text-foreground"
             style={{ letterSpacing: "-1px" }}
             initial={{ y: "100%" }}
             whileInView={{ y: 0 }}
@@ -82,7 +72,7 @@ export function HowItWorks() {
         </div>
         <div className="overflow-hidden">
           <motion.p
-            className="text-[13px] lg:text-[15px] max-w-lg mx-auto text-white/40"
+            className="text-[13px] lg:text-[15px] max-w-lg mx-auto text-muted-foreground"
             initial={{ y: "100%" }}
             whileInView={{ y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
@@ -94,8 +84,8 @@ export function HowItWorks() {
       </div>
 
       <div className="relative max-w-5xl mx-auto">
-        <div className="hidden lg:block absolute top-[72px] left-[calc(16.67%+28px)] right-[calc(16.67%+28px)] h-[2px] bg-gradient-to-r from-[#E85E1D]/20 via-[#E85E1D]/40 to-[#E85E1D]/20" />
-        <div className="lg:hidden absolute top-0 bottom-0 left-[29px] w-[2px] bg-gradient-to-b from-[#E85E1D]/20 via-[#E85E1D]/40 to-[#E85E1D]/20" />
+        <div className="hidden lg:block absolute top-[72px] left-[calc(16.67%+28px)] right-[calc(16.67%+28px)] h-[2px] bg-gradient-to-r from-accent/20 via-accent/40 to-accent/20" />
+        <div className="lg:hidden absolute top-0 bottom-0 left-[29px] w-[2px] bg-gradient-to-b from-accent/20 via-accent/40 to-accent/20" />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {steps.map((step, idx) => {
@@ -130,31 +120,31 @@ export function HowItWorks() {
                     damping: 15,
                   }}
                 >
-                  <div className="w-[58px] h-[58px] rounded-full flex items-center justify-center border-2 bg-[#111111] border-[#E85E1D]/30">
-                    <div className="w-11 h-11 rounded-full flex items-center justify-center bg-[#E85E1D]/15">
-                      <Icon size={22} className="text-[#E85E1D]" />
+                  <div className="w-[58px] h-[58px] rounded-full flex items-center justify-center border-2 bg-background border-accent/30">
+                    <div className="w-11 h-11 rounded-full flex items-center justify-center bg-accent/15">
+                      <Icon size={22} className="text-accent" />
                     </div>
                   </div>
                 </motion.div>
 
                 <motion.div
-                  className="relative flex-1 rounded-xl border p-5 lg:p-6 group lg:text-center bg-[#111111]/80 border-white/[0.06] hover:border-[#E85E1D]/25 hover:shadow-[0_8px_30px_rgba(232,94,29,0.06)]"
+                  className="relative flex-1 rounded-xl border p-5 lg:p-6 group lg:text-center bg-background/80 border-border hover:border-accent/25 hover:shadow-[0_8px_30px_rgba(232,94,29,0.06)]"
                   whileHover={{ y: -8, scale: 1.02 }}
                   transition={{ type: "spring", stiffness: 300, damping: 25 }}
                 >
-                  <span className="absolute top-3 right-4 lg:top-4 lg:right-5 text-[48px] lg:text-[56px] font-[900] leading-none select-none pointer-events-none text-white/[0.03]">
+                  <span className="absolute top-3 right-4 lg:top-4 lg:right-5 text-[48px] lg:text-[56px] font-[900] leading-none select-none pointer-events-none text-foreground/[0.03]">
                     {step.number}
                   </span>
-                  <h3 className="text-[15px] lg:text-[17px] font-bold mb-2 relative z-10 text-white">
+                  <h3 className="text-[15px] lg:text-[17px] font-bold mb-2 relative z-10 text-foreground">
                     {step.title}
                   </h3>
-                  <p className="text-[11px] lg:text-[12px] font-semibold mb-3 relative z-10 text-[#E85E1D]">
+                  <p className="text-[11px] lg:text-[12px] font-semibold mb-3 relative z-10 text-accent">
                     {step.description}
                   </p>
-                  <p className="text-[11px] lg:text-[12px] leading-[1.7] relative z-10 text-white/35">
+                  <p className="text-[11px] lg:text-[12px] leading-[1.7] relative z-10 text-muted-foreground">
                     {step.detail}
                   </p>
-                  <div className="mt-4 inline-flex items-center gap-1.5 text-[11px] font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-[#E85E1D]">
+                  <div className="mt-4 inline-flex items-center gap-1.5 text-[11px] font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-accent">
                     Learn more <ArrowRight size={12} />
                   </div>
                 </motion.div>
