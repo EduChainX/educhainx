@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 import { Compass, ShieldCheck, LayoutGrid, Layers, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+import { useLanguage } from "@/lib/LanguageContext";
+
 const mainItems = [
   { icon: Compass, label: "Explore", href: "/marketplace" },
   { icon: ShieldCheck, label: "Verify", href: "/verification" },
@@ -21,6 +23,7 @@ const mainItems = [
  */
 export function BottomNav() {
   const pathname = usePathname();
+  const { t } = useLanguage();
 
   return (
     <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 flex flex-col">
@@ -29,6 +32,11 @@ export function BottomNav() {
       >
         {mainItems.map(({ icon: Icon, label, href }) => {
           const active = pathname === href;
+          const translationKey = label === "Explore" ? "explore" :
+                                 label === "Verify" ? "verification" :
+                                 label === "Dashboard" ? "dashboard" :
+                                 label === "How" ? "how_it_works" : "settings";
+          const translatedLabel = t(translationKey, label);
           return (
             <Link
               key={href}
@@ -41,7 +49,7 @@ export function BottomNav() {
               )}
             >
               <Icon size={18} strokeWidth={1.8} />
-              <span className="text-[8px] font-semibold">{label}</span>
+              <span className="text-[8px] font-semibold">{translatedLabel}</span>
             </Link>
           );
         })}

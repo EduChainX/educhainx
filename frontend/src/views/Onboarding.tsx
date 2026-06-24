@@ -24,17 +24,20 @@ import { DIDString, WalletAddressChip } from '@/components/educhain/shared';
 import { cn } from '@/lib/utils';
 import { verifyMatric, bindWallet } from '@/lib/api';
 
-const steps = [
-  { id: 1, title: 'Matriculation', icon: ShieldCheck },
-  { id: 2, title: 'DID Creation', icon: Cpu },
-  { id: 3, title: 'Wallet Binding', icon: Wallet },
-  { id: 4, title: 'Role Selection', icon: UserCircle },
-];
+import { useLanguage } from '@/lib/LanguageContext';
 
 /** Multi-step onboarding: matric verification, DID creation, wallet binding, and role selection. */
 export const OnboardingFlow = () => {
   const router = useRouter();
   const { select, connect, connected, connecting, publicKey, signMessage, wallet } = useWallet();
+  const { t } = useLanguage();
+
+  const steps = [
+    { id: 1, title: t('matric_step', 'Matriculation'), icon: ShieldCheck },
+    { id: 2, title: t('did_step', 'DID Creation'), icon: Cpu },
+    { id: 3, title: t('wallet_step', 'Wallet Binding'), icon: Wallet },
+    { id: 4, title: t('role_step', 'Role Selection'), icon: UserCircle },
+  ];
 
   const [currentStep, setCurrentStep] = React.useState(1);
   const [loading, setLoading] = React.useState(false);
@@ -54,7 +57,7 @@ export const OnboardingFlow = () => {
 
   // After the user picks a wallet, connect to it (WalletProvider has autoConnect; this is a safety net).
   React.useEffect(() => {
-    if (wallet && !connected && !connecting) {
+    if (wallet?.readyState === 'Installed' && !connected && !connecting) {
       connect().catch(() => {});
     }
   }, [wallet, connected, connecting, connect]);
@@ -120,6 +123,9 @@ export const OnboardingFlow = () => {
     if (currentStep === 4) {
       if (!role) return;
       toast.success('Onboarding complete!');
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('show_onboarding_loader', 'true');
+      }
       router.push('/dashboard');
     }
   };
@@ -128,7 +134,7 @@ export const OnboardingFlow = () => {
     setCurrentStep(prev => prev - 1);
   };
 
-  const nextLabel = currentStep === 4 ? 'Complete' : currentStep === 3 ? 'Sign & Bind' : 'Continue';
+  const nextLabel = currentStep === 4 ? t('complete_btn', 'Complete') : currentStep === 3 ? t('sign_bind_btn', 'Sign & Bind') : t('continue_btn', 'Continue');
   const nextDisabled =
     loading ||
     (currentStep === 1 && !matric) ||
@@ -173,14 +179,14 @@ export const OnboardingFlow = () => {
                 className="space-y-6 flex-1"
               >
                 <div>
-                  <h2 className="text-2xl font-bold mb-2">Matriculation Verification</h2>
-                  <p className="text-muted-foreground text-sm">Enter your university-issued matriculation number to begin verification.</p>
+                  <h2 className="text-2xl font-bold mb-2">{t('matric_verif', 'Matriculation Verification')}</h2>
+                  <p className="text-muted-foreground text-sm">{t('enter_matric', 'Enter your university-issued matriculation number to begin verification.')}</p>
                 </div>
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <label className="text-[12px] uppercase font-bold text-muted-foreground">Matric Number</label>
+                    <label className="text-[12px] uppercase font-bold text-muted-foreground">{t('matric_num', 'Matric Number')}</label>
                     <Input
-                      placeholder="e.g. FUTO/2021/12345"
+                      placeholder="e.g. 20241484623"
                       value={matric}
                       onChange={(e) => setMatric(e.target.value)}
                       className="h-12 bg-background border-border"
@@ -206,8 +212,8 @@ export const OnboardingFlow = () => {
                 className="space-y-6 flex-1 text-center py-4"
               >
                 <div>
-                  <h2 className="text-2xl font-bold mb-2">DID Generation</h2>
-                  <p className="text-muted-foreground text-sm">Creating your unique decentralized identity on Solana.</p>
+                  <h2 className="text-2xl font-bold mb-2">{t('did_gen', 'DID Generation')}</h2>
+                  <p className="text-muted-foreground text-sm">{t('did_gen_sub', 'Creating your unique decentralized identity on Solana.')}</p>
                 </div>
                 <div className="py-8 space-y-4">
                   <div className="relative h-24 flex items-center justify-center">
@@ -250,8 +256,8 @@ export const OnboardingFlow = () => {
                 className="space-y-6 flex-1"
               >
                 <div>
-                  <h2 className="text-2xl font-bold mb-2">Wallet Binding</h2>
-                  <p className="text-muted-foreground text-sm">Connect your Solana wallet to manage your academic credentials.</p>
+                  <h2 className="text-2xl font-bold mb-2">{t('wallet_binding', 'Wallet Binding')}</h2>
+                  <p className="text-muted-foreground text-sm">{t('wallet_binding_sub', 'Connect your Solana wallet to manage your academic credentials.')}</p>
                 </div>
                 <div className="space-y-6 py-4">
                   <div className="flex items-center justify-center gap-8 relative">
@@ -315,8 +321,8 @@ export const OnboardingFlow = () => {
                 className="space-y-6 flex-1"
               >
                 <div>
-                  <h2 className="text-2xl font-bold mb-2">Role Selection</h2>
-                  <p className="text-muted-foreground text-sm">How do you intend to use EduChain?</p>
+                  <h2 className="text-2xl font-bold mb-2">{t('role_selection', 'Role Selection')}</h2>
+                  <p className="text-muted-foreground text-sm">{t('role_selection_sub', 'How do you intend to use EduChain?')}</p>
                 </div>
                 <div className="grid grid-cols-2 gap-4 py-4">
                   <button

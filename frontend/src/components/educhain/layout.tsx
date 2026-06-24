@@ -26,6 +26,8 @@ import { ThemeToggle } from './theme-toggle';
 import { AiChatWidget } from './ai-chat-widget';
 import { useSidebar } from './sidebar-context';
 
+import { useLanguage } from '@/lib/LanguageContext';
+
 /**
  * App sidebar. On large screens it is always visible and can be minimized to an
  * icon-only rail (no hamburger). On small screens it is an off-canvas drawer
@@ -44,15 +46,16 @@ export const Sidebar = ({
 }) => {
   const pathname = usePathname();
   const { publicKey, connected } = useWallet();
+  const { t } = useLanguage();
 
   const navItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
-    { icon: ShoppingBag, label: 'Marketplace', path: '/marketplace' },
-    { icon: Award, label: 'Certificates', path: '/certificates' },
-    { icon: UserCircle, label: 'My Identity', path: '/profile' },
-    { icon: Building2, label: 'Instructor', path: '/instructor' },
-    { icon: MessageCircle, label: 'Chat', path: '/chat' },
-    { icon: Settings, label: 'Settings', path: '/settings' },
+    { icon: LayoutDashboard, label: t('dashboard', 'Dashboard'), path: '/dashboard' },
+    { icon: ShoppingBag, label: t('marketplace', 'Marketplace'), path: '/marketplace' },
+    { icon: Award, label: t('certificates', 'Certificates'), path: '/certificates' },
+    { icon: UserCircle, label: t('my_identity', 'My Identity'), path: '/profile' },
+    { icon: Building2, label: t('instructor', 'Instructor'), path: '/instructor' },
+    { icon: MessageCircle, label: t('chat', 'Chat'), path: '/chat' },
+    { icon: Settings, label: t('settings', 'Settings'), path: '/settings' },
   ];
 
   return (
@@ -131,9 +134,9 @@ export const Sidebar = ({
             collapsed ? "lg:justify-center justify-start" : "justify-start"
           )}
         >
-          <Link href="/logout" onClick={() => setOpen(false)} title="Disconnect">
+          <Link href="/logout" onClick={() => setOpen(false)} title={t('disconnect', 'Disconnect')}>
             <LogOut size={20} />
-            <span className={cn(collapsed && "lg:hidden")}>Disconnect</span>
+            <span className={cn(collapsed && "lg:hidden")}>{t('disconnect', 'Disconnect')}</span>
           </Link>
         </Button>
       </div>

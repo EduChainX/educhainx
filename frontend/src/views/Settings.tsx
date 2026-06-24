@@ -9,7 +9,9 @@ import { ThemeToggle } from '@/components/educhain/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-const LANGUAGES = ['English', 'Français', 'Yorùbá', 'Hausa', 'Igbo', 'Kiswahili', 'العربية'];
+import { useLanguage } from '@/lib/LanguageContext';
+
+const LANGUAGES = ['English', 'Français', 'Español', 'Yorùbá', 'Hausa', 'Igbo', 'Kiswahili', 'العربية'];
 
 /** A labelled settings row. */
 const Row = ({
@@ -39,8 +41,8 @@ const Row = ({
 
 /** Settings page: language, appearance, notifications, account. */
 export const SettingsPage = () => {
+  const { language, setLanguage, t } = useLanguage();
   const [langOpen, setLangOpen] = React.useState(false);
-  const [language, setLanguage] = React.useState('English');
   const [notify, setNotify] = React.useState(false);
 
   // Reflect the browser's actual notification permission on mount.
@@ -81,12 +83,12 @@ export const SettingsPage = () => {
     <AppLayout>
       <div className="max-w-3xl mx-auto space-y-6">
         <div className="space-y-1">
-          <h1 className="text-2xl sm:text-3xl font-bold">Settings</h1>
-          <p className="text-sm text-muted-foreground">Manage your preferences, identity, and account.</p>
+          <h1 className="text-2xl sm:text-3xl font-bold">{t('settings_title', 'Settings')}</h1>
+          <p className="text-sm text-muted-foreground">{t('settings_subtitle', 'Manage your preferences, identity, and account.')}</p>
         </div>
 
         {/* Language */}
-        <Row icon={Globe} title="Language" desc="Choose your preferred language.">
+        <Row icon={Globe} title={t('language', 'Language')} desc={t('choose_language', 'Choose your preferred language.')}>
           <div className="relative">
             <Button
               variant="outline"
@@ -120,12 +122,12 @@ export const SettingsPage = () => {
         </Row>
 
         {/* Appearance */}
-        <Row icon={Palette} title="Appearance" desc="Switch between light and dark mode.">
+        <Row icon={Palette} title={t('appearance', 'Appearance')} desc={t('switch_appearance', 'Switch between light and dark mode.')}>
           <ThemeToggle />
         </Row>
 
         {/* Notifications */}
-        <Row icon={Bell} title="Notifications" desc="Get notified about new certificates and messages in this browser.">
+        <Row icon={Bell} title={t('notifications', 'Notifications')} desc={t('notify_desc', 'Get notified about new certificates and messages in this browser.')}>
           <button
             onClick={onToggleNotify}
             aria-label="Toggle notifications"
@@ -150,12 +152,12 @@ export const SettingsPage = () => {
               <LogOut size={18} />
             </div>
             <div className="min-w-0">
-              <h3 className="font-semibold text-sm">Account</h3>
-              <p className="text-[12px] text-muted-foreground">Disconnect your wallet and manage your account.</p>
+              <h3 className="font-semibold text-sm">{t('account', 'Account')}</h3>
+              <p className="text-[12px] text-muted-foreground">{t('disconnect_desc', 'Disconnect your wallet and manage your account.')}</p>
             </div>
           </div>
           <Button asChild variant="destructive" className="gap-2 shrink-0">
-            <Link href="/logout"><LogOut size={16} /> Disconnect</Link>
+            <Link href="/logout"><LogOut size={16} /> {t('disconnect', 'Disconnect')}</Link>
           </Button>
         </div>
       </div>

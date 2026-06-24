@@ -25,7 +25,9 @@ const FADE_DURATION_MS = 700;
 /** Full-screen branded loading overlay shown during page transitions. */
 export function PageLoader() {
   const pathname = usePathname();
-  const [phase, setPhase] = React.useState<"loading" | "fading" | "done">("loading");
+  const [phase, setPhase] = React.useState<"loading" | "fading" | "done">(() => {
+    return pathname === "/" ? "loading" : "done";
+  });
   const [progress, setProgress] = React.useState(0);
   const [isInitialLoad, setIsInitialLoad] = React.useState(true);
 
@@ -39,6 +41,11 @@ export function PageLoader() {
   }, []);
 
   React.useEffect(() => {
+    if (phase === "done") {
+      setIsInitialLoad(false);
+      return;
+    }
+
     let mounted = true;
     const startTime = Date.now();
 
@@ -74,10 +81,17 @@ export function PageLoader() {
       clearInterval(progressInterval);
       document.removeEventListener("readystatechange", handleReadyState);
     };
-  }, [startFadeOut]);
+  }, [startFadeOut, phase]);
 
   React.useEffect(() => {
     if (isInitialLoad) return;
+
+    const isLanding = pathname === "/";
+    const isOnboardingFinished = typeof window !== "undefined" && sessionStorage.getItem("show_onboarding_loader") === "true";
+
+    if (!isLanding && !isOnboardingFinished) {
+      return;
+    }
 
     setPhase("loading");
     setProgress(0);
@@ -94,6 +108,10 @@ export function PageLoader() {
       if (mounted) {
         setProgress(100);
         startFadeOut();
+        // Clear flag if it was an onboarding redirect
+        if (typeof window !== "undefined" && sessionStorage.getItem("show_onboarding_loader") === "true") {
+          sessionStorage.removeItem("show_onboarding_loader");
+        }
       }
     }, MIN_DISPLAY_MS);
 
