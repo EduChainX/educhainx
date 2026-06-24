@@ -7,6 +7,8 @@ import { WalletProviders } from "@/components/WalletProviders";
 import { ClientShell } from "@/components/educhain/client-shell";
 import { SidebarProvider } from "@/components/educhain/sidebar-context";
 
+import { LanguageProvider } from "@/lib/LanguageContext";
+
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-jakarta",
@@ -42,12 +44,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${jakarta.variable} ${fraunces.variable} ${jetbrainsMono.variable} ${poppins.variable}`} suppressHydrationWarning data-theme="dark">
       <body className="pb-20 lg:pb-0">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-          <WalletProviders>
-            <SidebarProvider>
-              <ClientShell>{children}</ClientShell>
-            </SidebarProvider>
-          </WalletProviders>
-          <Toaster position="top-center" />
+          <LanguageProvider>
+            <WalletProviders>
+              <SidebarProvider>
+                <ClientShell>{children}</ClientShell>
+              </SidebarProvider>
+            </WalletProviders>
+            <Toaster position="top-center" />
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>
