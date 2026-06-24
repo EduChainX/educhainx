@@ -12,6 +12,7 @@ import { StatsBanner } from "@/views/sections/StatsBanner";
 import { VerifyShowcase } from "@/views/sections/VerifyShowcase";
 import { NavBar } from "@/components/educhain/nav-bar";
 import Image from "next/image";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const slides = [
   {
@@ -94,7 +95,14 @@ export const LandingPage = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const slide = slides[current];
+  const { t } = useLanguage();
+  const rawSlide = slides[current];
+  const slide = {
+    ...rawSlide,
+    headingTop: t(`slide${current}_top`, rawSlide.headingTop),
+    headingAccent: t(`slide${current}_accent`, rawSlide.headingAccent),
+    description: t(`slide${current}_desc`, rawSlide.description),
+  };
   const isLight = mounted && theme === "light";
 
   const heroRef = useRef(null);
@@ -253,7 +261,7 @@ export const LandingPage = () => {
                   onClick={() => router.push("/onboarding")}
                   className="flex items-center justify-center gap-2 bg-primary text-primary-foreground text-[14px] font-semibold py-3.5 rounded-lg hover:brightness-110 transition"
                 >
-                  Start Onboarding
+                  {t('start_onboarding_btn', 'Start Onboarding')}
                   <ArrowRight size={15} />
                 </button>
                 <button
@@ -263,7 +271,7 @@ export const LandingPage = () => {
                     "border-border text-muted-foreground hover:text-primary-foreground hover:bg-primary"
                   )}
                 >
-                  Explore Courses
+                  {t('explore_courses_btn', 'Explore Courses')}
                 </button>
               </div>
 
@@ -385,7 +393,7 @@ export const LandingPage = () => {
                 "bg-primary text-primary-foreground"
               )}
             >
-              Start Onboarding
+              {t('start_onboarding_btn', 'Start Onboarding')}
               <ArrowRight size={14} />
             </button>
             <button
@@ -395,7 +403,7 @@ export const LandingPage = () => {
                 "border border-border text-foreground hover:bg-secondary"
               )}
             >
-              Explore Courses
+              {t('explore_courses_btn', 'Explore Courses')}
             </button>
           </motion.div>
 
