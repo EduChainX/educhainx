@@ -1,5 +1,6 @@
 # go
 backend/server
+*.env
 *.out
 
 # node / next
