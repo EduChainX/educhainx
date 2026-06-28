@@ -9,6 +9,8 @@ frontend/.next/
 frontend/.env.local
 *.tsbuildinfo
 
+backend/*.env
+
 # anchor / rust
 contracts/target/
 contracts/.anchor/
