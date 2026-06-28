@@ -29,6 +29,10 @@ func New(cfg config.Config) *gin.Engine {
 		c.JSON(http.StatusOK, gin.H{"ok": true})
 	})
 
+	r.HEAD("/health", func(c *gin.Context) {
+		c.Status(http.StatusOK)
+	})
+
 	api := r.Group("/api/v1")
 	{
 		// the moat: matric -> verified -> DID + wallet binding
