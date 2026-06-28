@@ -16,6 +16,7 @@ import (
 func New(cfg config.Config) *gin.Engine {
 	r := gin.Default()
 	r.Use(cors.Default()) // wide open for the hackathon; lock down before mainnet
+	r.SetTrustedProxies(nil)
 
 	verifier := verify.NewService(cfg.RegistryCSV)
 	issuer := did.NewIssuer()
