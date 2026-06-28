@@ -14,7 +14,9 @@ import (
 
 // New wires the router. All real logic lives in the service packages — this is just plumbing.
 func New(cfg config.Config) *gin.Engine {
-	r := gin.Default()
+	r := gin.New()
+	r.Use(gin.Logger())
+	r.Use(gin.Recovery())
 	r.Use(cors.Default()) // wide open for the hackathon; lock down before mainnet
 	r.SetTrustedProxies(nil)
 
