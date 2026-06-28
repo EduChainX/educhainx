@@ -140,11 +140,11 @@ export const ChatPage = () => {
         </p>
       </div>
 
-      <div className="flex h-[calc(100vh-13rem)] min-h-[420px] bg-card border border-border rounded-xl overflow-hidden">
+      <div className="flex h-[calc(100vh-13rem)] min-h-105 bg-card border border-border rounded-xl overflow-hidden">
         {/* List panel */}
         <div
           className={cn(
-            "w-full md:w-[300px] md:shrink-0 border-r border-border flex flex-col",
+            "w-full md:w-75 md:shrink-0 border-r border-border flex flex-col",
             mobileThread ? "hidden md:flex" : "flex"
           )}
         >

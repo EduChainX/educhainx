@@ -1,45 +1,76 @@
-"use client";
+'use client'
 
-import React from 'react';
-import { Send, Bot, User, X, MessageCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import React from 'react'
+import { Send, Bot, User, X, MessageCircle } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+import { useState } from 'react'
 
-type Message = { id: number; from: 'user' | 'bot'; text: string };
+type Message = { id: number; role: 'user' | 'assistant'; content: string }
 
 const GREETING: Message = {
   id: 0,
-  from: 'bot',
-  text: "Hi! I'm the EduChainX AI assistant. Ask me about your credentials, courses, or how on-chain verification works.",
-};
+  role: 'assistant',
+  content:
+    "Hi! I'm the EduChainX AI assistant. Ask me about your credentials, courses, or how on-chain verification works.",
+}
 
 /**
  * Floating AI chat. The orange button at the bottom toggles a floating panel.
  * Closes via the exit icon or by tapping the backdrop (outside the panel).
  */
 export const AiChatWidget = () => {
-  const [open, setOpen] = React.useState(false);
-  const [messages, setMessages] = React.useState<Message[]>([GREETING]);
-  const [draft, setDraft] = React.useState('');
-  const endRef = React.useRef<HTMLDivElement>(null);
-  const nextId = React.useRef(1);
+  const [open, setOpen] = React.useState(false)
+  const [messages, setMessages] = React.useState<Message[]>([GREETING])
+  const [draft, setDraft] = React.useState('')
+  const endRef = React.useRef<HTMLDivElement>(null)
+  const nextId = React.useRef(1)
 
   React.useEffect(() => {
-    if (open) endRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, open]);
+    if (open) endRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages, open])
 
-  const send = () => {
-    const text = draft.trim();
-    if (!text) return;
-    const userMsg: Message = { id: nextId.current++, from: 'user', text };
-    const botMsg: Message = {
-      id: nextId.current++,
-      from: 'bot',
-      text: `You said: "${text}". (This is a demo assistant — real responses are coming soon.)`,
-    };
-    setMessages((prev) => [...prev, userMsg, botMsg]);
-    setDraft('');
-  };
+  const send = async () => {
+    const text = draft.trim()
+    if (!text) return
+    const userMsg: Message = { id: nextId.current++, role: 'user', content: text }
+    // const botMsg: Message = {
+    //   id: nextId.current++,
+    //   role: 'assistant',
+    //   content: `You said: "${text}". (This is a demo assistant — real responses are coming soon.)`,
+    // };
+    const updatedMessages = [...messages, userMsg]
+    setMessages(updatedMessages)
+    setDraft('')
+
+    const loadingId = nextId.current++
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: loadingId,
+        role: 'assistant',
+        content: '...',
+      },
+    ])
+
+    try {
+      const res = await fetch('api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: updatedMessages }),
+      })
+      const data: { reply: string } = await res.json()
+      setMessages((prev) =>
+        prev.map((m) => (m.id === loadingId ? { ...m, content: data.reply } : m)),
+      )
+    } catch (err) {
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === loadingId ? { ...m, content: 'Something went wrong. Please try again' } : m,
+        ),
+      )
+    }
+  }
 
   return (
     <>
@@ -57,7 +88,7 @@ export const AiChatWidget = () => {
         <div
           role="dialog"
           aria-label="AI assistant chat"
-          className="fixed z-50 right-3 sm:right-6 bottom-24 lg:bottom-24 left-3 sm:left-auto sm:w-[380px] h-[70vh] max-h-[560px] flex flex-col bg-card border border-border rounded-2xl shadow-2xl overflow-hidden"
+          className="fixed z-50 right-3 sm:right-6 bottom-24 lg:bottom-24 left-3 sm:left-auto sm:w-95 h-[70vh] max-h-140 flex flex-col bg-card border border-border rounded-2xl shadow-2xl overflow-hidden"
         >
           {/* Header */}
           <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-border bg-background/40">
@@ -89,27 +120,27 @@ export const AiChatWidget = () => {
               <div
                 key={m.id}
                 className={cn(
-                  "flex items-end gap-2",
-                  m.from === 'user' ? "flex-row-reverse" : "flex-row"
+                  'flex items-end gap-2',
+                  m.role === 'user' ? 'flex-row-reverse' : 'flex-row',
                 )}
               >
                 <div
                   className={cn(
-                    "h-7 w-7 rounded-full flex items-center justify-center shrink-0",
-                    m.from === 'user' ? "bg-primary/15 text-primary" : "bg-accent/15 text-accent"
+                    'h-7 w-7 rounded-full flex items-center justify-center shrink-0',
+                    m.role === 'user' ? 'bg-primary/15 text-primary' : 'bg-accent/15 text-accent',
                   )}
                 >
-                  {m.from === 'user' ? <User size={14} /> : <Bot size={14} />}
+                  {m.role === 'user' ? <User size={14} /> : <Bot size={14} />}
                 </div>
                 <div
                   className={cn(
-                    "max-w-[78%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed",
-                    m.from === 'user'
-                      ? "bg-primary text-primary-foreground rounded-br-sm"
-                      : "bg-muted text-foreground rounded-bl-sm"
+                    'max-w-[78%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed',
+                    m.role === 'user'
+                      ? 'bg-primary text-primary-foreground rounded-br-sm'
+                      : 'bg-muted text-foreground rounded-bl-sm',
                   )}
                 >
-                  {m.text}
+                  {m.content}
                 </div>
               </div>
             ))}
@@ -122,7 +153,9 @@ export const AiChatWidget = () => {
               <input
                 value={draft}
                 onChange={(e) => setDraft(e.target.value)}
-                onKeyDown={(e) => { if (e.key === 'Enter') send(); }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') send()
+                }}
                 placeholder="Ask the assistant..."
                 className="flex-1 h-10 rounded-full bg-input border border-border px-4 text-sm outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-2"
               />
@@ -152,5 +185,5 @@ export const AiChatWidget = () => {
         </button>
       )}
     </>
-  );
-};
+  )
+}
